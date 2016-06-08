@@ -1,1 +1,1 @@
-# Live Phot Manager
+# Live Photo Manager
