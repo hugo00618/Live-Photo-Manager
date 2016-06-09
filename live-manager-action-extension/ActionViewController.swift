@@ -30,28 +30,28 @@ class ActionViewController: UITableViewController {
             self.pushToFileUnsupportedScene()
             
             /* //weak var weakImageView = self.imageView
-            
-            itemProvider.loadItemForTypeIdentifier(kUTTypeLivePhoto as String, options: nil, completionHandler: { (result, error) in
-                NSOperationQueue.mainQueue().addOperationWithBlock {
-                    //if let strongImageView = weakImageView {
-                    
-                    if result == nil {
-                        NSLog("************ 2 ************")
-                        NSLog(String(error))
-                    }
-                    
-                    if let result = result as? NSURL {
-                        NSLog("URL")
-                        PHLivePhoto.requestLivePhotoWithResourceFileURLs([result], placeholderImage: nil, targetSize: self.liveImg_photo.bounds.size, contentMode: PHImageContentMode.AspectFit, resultHandler: { (result: PHLivePhoto?, info: [NSObject : AnyObject]) in
-                            NSLog("Live photo loaded")
-                            self.liveImg_photo.livePhoto = result
-                        })
-                        
-                        //strongImageView.image = UIImage(data: NSData(contentsOfURL: imageURL)!)
-                    }
-                    //}
-                }
-            }) */
+             
+             itemProvider.loadItemForTypeIdentifier(kUTTypeLivePhoto as String, options: nil, completionHandler: { (result, error) in
+             NSOperationQueue.mainQueue().addOperationWithBlock {
+             //if let strongImageView = weakImageView {
+             
+             if result == nil {
+             NSLog("************ 2 ************")
+             NSLog(String(error))
+             }
+             
+             if let result = result as? NSURL {
+             NSLog("URL")
+             PHLivePhoto.requestLivePhotoWithResourceFileURLs([result], placeholderImage: nil, targetSize: self.liveImg_photo.bounds.size, contentMode: PHImageContentMode.AspectFit, resultHandler: { (result: PHLivePhoto?, info: [NSObject : AnyObject]) in
+             NSLog("Live photo loaded")
+             self.liveImg_photo.livePhoto = result
+             })
+             
+             //strongImageView.image = UIImage(data: NSData(contentsOfURL: imageURL)!)
+             }
+             //}
+             }
+             }) */
         } else if itemProvider.hasItemConformingToTypeIdentifier(kUTTypeZipArchive as String) { // zip
             itemProvider.loadItemForTypeIdentifier(kUTTypeZipArchive as String, options: nil, completionHandler: { (zipURL, error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock {
@@ -87,14 +87,20 @@ class ActionViewController: UITableViewController {
         if (pushedBackFromError) {
             cancel(self)
         } else { // proceed vc initialization
-        // select first save as option by default
-        table_master.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))?.accessoryType = UITableViewCellAccessoryType.Checkmark
+            // select first save as option by default
+            table_master.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))?.accessoryType = UITableViewCellAccessoryType.Checkmark
         }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        cleanup()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -114,6 +120,7 @@ class ActionViewController: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    // MARK: action
     @IBAction func save(sender: AnyObject) {
         // find the table cell that has checkmark
         var i: Int
@@ -131,21 +138,22 @@ class ActionViewController: UITableViewController {
                 request.addResourceWithType(PHAssetResourceType.Photo, fileURL: self.livePhotoURLs![0], options: nil)
                 request.addResourceWithType(PHAssetResourceType.PairedVideo, fileURL: self.livePhotoURLs![1], options: nil)
                 }, completionHandler: { (success: Bool, error: NSError?) in
-                    if (success) {
-                        NSLog("Success")
-                    } else {
-                        NSLog(String(error))
-                    }
+                    self.cleanup()
             })
             break
         case 2: // still photo
-            let stillPhoto = UIImage(data: NSData(contentsOfURL: self.livePhotoURLs![0])!)!
-            UIImageWriteToSavedPhotosAlbum(stillPhoto, nil, nil, nil)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                let stillPhoto = UIImage(data: NSData(contentsOfURL: self.livePhotoURLs![0])!)!
+                UIImageWriteToSavedPhotosAlbum(stillPhoto, self, #selector(self.cleanup), nil)
+            })
             break
         case 3: // video
-            UISaveVideoAtPathToSavedPhotosAlbum(livePhotoURLs![1].relativePath!, nil, nil, nil)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                UISaveVideoAtPathToSavedPhotosAlbum(self.livePhotoURLs![1].relativePath!, self, #selector(self.cleanup), nil)
+            })
             break
         default:
+            cleanup()
             break
         }
         
@@ -154,6 +162,7 @@ class ActionViewController: UITableViewController {
     
     // on cancel button tapped
     @IBAction func cancel(sender: AnyObject) {
+        cleanup()
         self.extensionContext!.completeRequestReturningItems(nil, completionHandler: nil)
     }
     
@@ -219,5 +228,18 @@ class ActionViewController: UITableViewController {
     // consumes two file names and determines if the first one is a jpeg image and the second one is a .mov video
     func entriesAreOfCorrectType(firstName: String, secondName: String) -> Bool {
         return ((firstName.hasSuffix(".jpg") || firstName.hasSuffix(".JPG") || firstName.hasSuffix(".jpeg") || firstName.hasSuffix(".JPEG")) && (secondName.hasSuffix(".mov") || secondName.hasSuffix(".MOV")))
+    }
+    
+    func cleanup() {
+        // delete live photo files if not null
+        if (livePhotoURLs != nil) {
+            for myURL in livePhotoURLs! {
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(myURL.relativePath!)
+                } catch let error {
+                    NSLog(String(error))
+                }
+            }
+        }
     }
 }

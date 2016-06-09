@@ -19,7 +19,7 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
     var videoURL: NSURL?
     var universalFileName: String!
     
-    var hud:MBProgressHUD?
+    //var hud:MBProgressHUD?
     
     @IBOutlet weak var liveImg_photo: PHLivePhotoView!
     @IBOutlet weak var progress_load: UIProgressView!
@@ -79,10 +79,10 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
         self.navigationController?.toolbarHidden = true
         self.navigationController?.hidesBarsOnTap = false
         
-        // hide hud
+        /* // hide hud
         if (hud != nil) {
             hud!.hideAnimated(true)
-        }
+        } */
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -300,7 +300,7 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
         //        })
     }
     
-    func showVideoSavedHUD() {
+    /*func showVideoSavedHUD() {
         // construct HUD
         hud = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
         hud!.mode = MBProgressHUDMode.CustomView
@@ -325,5 +325,5 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
         if (hud != nil) {
             hud!.hideAnimated(true)
         }
-    }
+    }*/
 }
