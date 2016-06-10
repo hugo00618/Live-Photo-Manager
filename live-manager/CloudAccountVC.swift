@@ -9,35 +9,84 @@
 import UIKit
 import SwiftyDropbox
 
+let CELL_REUSE_ID_LOAD_INDIC = "tableCell_loadingIndicator"
+let CELL_REUSE_ID_CLOUD_ACC = "tableCell_cloudAccount"
+let CELL_REUSE_ID_ADD_ACC = "tableCell_addAccount"
+
+let IMAGE_NAME_DROPBOX_ICON = "Image_Dropbox_square"
+let IMAGE_NAME_GDRIVE_ICON = "Image_GDrive_square"
+let IMAGE_NAME_ONEDRIVE_ICON = "Image_OneDrive_square"
+
+let CLOUD_SERVICES_NUM = 3 // total number of cloud services available
+
 class CloudAccountVC: UITableViewController {
+    var availableCloudAccountCells = [CloudAccountTableCell]()
     
-    @IBOutlet weak var tableCell_loadingIndicator: UITableViewCell!
-    @IBOutlet weak var tableCell_dropboxAcc: UITableViewCell!
-    @IBOutlet weak var tableCell_gDriveAcc: UITableViewCell!
-    @IBOutlet weak var tableCell_oneDriveAcc: UITableViewCell!
-    
-    var cloudAccCheckedNum = 0
+    // flags
+    var cloudServicesStatusRefreshed = false
+    var cloudAccCheckedNum = 0 // number of accounts that have been checked
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        availableCloudAccountCells = []
+        cloudServicesStatusRefreshed = false
+        refreshCloudAccounts()
+    }
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "ACCOUNTS"
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (cloudServicesStatusRefreshed) { // refreshed
+            if (availableCloudAccountCells.count == CLOUD_SERVICES_NUM) { // all avaliable cloud services have been added, no "add account" cell needed
+                return CLOUD_SERVICES_NUM
+            } else { // still has available cloud services to add, present the "add account" button
+                return availableCloudAccountCells.count + 1
+            }
+        } else { // refreshing, display the loading indicator cell
+            return 1
+        }
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if (cloudServicesStatusRefreshed) { // refreshed
+            if (indexPath.row == availableCloudAccountCells.count) { // reaches the end of all user accounts, return "add account" cell
+                return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_ADD_ACC)!
+            } else {
+                return availableCloudAccountCells[indexPath.row]
+            }
+        } else { // refreshing, display the loading indicator cell
+            return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!
+        }
+    }
+    
+    func refreshCloudAccounts() {
         cloudAccCheckedNum = 0
         
         if let client = Dropbox.authorizedClient {
             // Get the current user's account info
             client.users.getCurrentAccount().response { response, error in
                 if let account = response {
-                    dispatch_async(dispatch_get_main_queue(), {() in
-                        self.tableCell_dropboxAcc!.textLabel?.text = account.name.displayName
-                        self.tableCell_dropboxAcc.hidden = false
-                        
-                        self.tableView.beginUpdates()
-                        self.tableView.endUpdates()
-                        
-                        self.cloudAccChekced()
-                    })
+                    let dropboxAccCell = self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_ACC) as! CloudAccountTableCell
+                    
+                    // set icon and label
+                    dropboxAccCell.image_icon.image = UIImage(named: IMAGE_NAME_DROPBOX_ICON)
+                    dropboxAccCell.label_userName.text = account.name.displayName
+                    
+                    // set account provider
+                    dropboxAccCell.serviceProvider = CloudServiceProvider.Dropbox
+                    
+                    self.availableCloudAccountCells.append(dropboxAccCell)
+                    self.cloudAccChekced()
                 } else {
                     print(error!)
+                    self.cloudAccChekced()
                 }
             }
         } else {
@@ -48,42 +97,15 @@ class CloudAccountVC: UITableViewController {
         cloudAccChekced()
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch (indexPath.row) {
-        case 0:
-            if (tableCell_loadingIndicator.hidden) {
-                return 0
-            }
-            break
-        case 1:
-            if (tableCell_dropboxAcc.hidden) {
-                return 0
-            }
-            break
-        case 2:
-            if (tableCell_gDriveAcc.hidden) {
-                return 0
-            }
-            break
-        case 3:
-            if (tableCell_oneDriveAcc.hidden) {
-                return 0
-            }
-            break
-        default:
-            break
-        }
-        return 44
-    }
-    
     func cloudAccChekced() {
         cloudAccCheckedNum += 1
         
-        if (cloudAccCheckedNum == 3) {
-            tableCell_loadingIndicator.hidden = true
+        // refresh tableView if all accounts have been checked
+        if (cloudAccCheckedNum == CLOUD_SERVICES_NUM) {
+            cloudServicesStatusRefreshed = true
             
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
+            // reload data
+            self.tableView.reloadSections(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
     
