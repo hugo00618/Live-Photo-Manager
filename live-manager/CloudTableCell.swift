@@ -19,6 +19,9 @@ class CloudAccountTableCell: UITableViewCell {
     @IBOutlet weak var label_userName: UILabel!
     
     var serviceProvider: CloudServiceProvider?
+    
+    // for SettingsVC only
+    var accountConfig: CloudAccountConfig?
 }
 
 class CloudServiceTableCell: UITableViewCell {

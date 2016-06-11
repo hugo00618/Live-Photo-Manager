@@ -14,6 +14,9 @@
 		9A0661861D07D01E0031AF12 /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4A84D41CBF2DAC00497539 /* ZipZap.framework */; };
 		9A0661871D07D0220031AF12 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB8B40F1CBD3BA20068052B /* Photos.framework */; };
 		9A0661881D07D02A0031AF12 /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4A83FA1CBEF13700497539 /* PhotosUI.framework */; };
+		9A2E41CA1D0BD3FC00AAF820 /* CloudAccountConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E41C91D0BD3FC00AAF820 /* CloudAccountConfig.swift */; };
+		9A2E41CC1D0BDA3900AAF820 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E41CB1D0BDA3900AAF820 /* SettingsVC.swift */; };
+		9A2E41CE1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E41CD1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift */; };
 		9A4A83FB1CBEF13700497539 /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4A83FA1CBEF13700497539 /* PhotosUI.framework */; };
 		9A4A84711CBF284700497539 /* AddAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4A84621CBF284700497539 /* AddAccountVC.swift */; };
 		9A4A84721CBF284700497539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4A84631CBF284700497539 /* AppDelegate.swift */; };
@@ -213,6 +216,9 @@
 
 /* Begin PBXFileReference section */
 		00E9FA1FE7067E7CBE16182F /* Pods_Live_Photos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Live_Photos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A2E41C91D0BD3FC00AAF820 /* CloudAccountConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudAccountConfig.swift; sourceTree = "<group>"; };
+		9A2E41CB1D0BDA3900AAF820 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		9A2E41CD1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSettingsDetailsVC.swift; sourceTree = "<group>"; };
 		9A4A83FA1CBEF13700497539 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
 		9A4A84621CBF284700497539 /* AddAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccountVC.swift; sourceTree = "<group>"; };
 		9A4A84631CBF284700497539 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -311,6 +317,9 @@
 				9A4A84621CBF284700497539 /* AddAccountVC.swift */,
 				9A6594261D092EFA00A0D54B /* CloudAccountVC.swift */,
 				9AE1D5411D0A82D000F63790 /* CloudTableCell.swift */,
+				9A2E41CB1D0BDA3900AAF820 /* SettingsVC.swift */,
+				9A2E41CD1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift */,
+				9A2E41C91D0BD3FC00AAF820 /* CloudAccountConfig.swift */,
 				9A4A84671CBF284700497539 /* Main.storyboard */,
 				9A4A84641CBF284700497539 /* Assets.xcassets */,
 				9A4A84651CBF284700497539 /* LaunchScreen.storyboard */,
@@ -756,12 +765,15 @@
 			files = (
 				9A4A84791CBF284700497539 /* PhotoThumbnailCell.swift in Sources */,
 				9A6594271D092EFA00A0D54B /* CloudAccountVC.swift in Sources */,
+				9A2E41CE1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift in Sources */,
 				9AE1D5421D0A82D000F63790 /* CloudTableCell.swift in Sources */,
 				9A4A84781CBF284700497539 /* PhotoDetailsVC.swift in Sources */,
+				9A2E41CA1D0BD3FC00AAF820 /* CloudAccountConfig.swift in Sources */,
 				9A4A847A1CBF284700497539 /* PhotoThumbnailVC.swift in Sources */,
 				9A4A84771CBF284700497539 /* live_manager.xcdatamodeld in Sources */,
 				9A4A84721CBF284700497539 /* AppDelegate.swift in Sources */,
 				9A4A84711CBF284700497539 /* AddAccountVC.swift in Sources */,
+				9A2E41CC1D0BDA3900AAF820 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

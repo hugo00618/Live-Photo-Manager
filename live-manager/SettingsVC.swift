@@ -1,31 +1,18 @@
 //
-//  CloudAccountVC.swift
+//  SettingsVC.swift
 //  live-manager
 //
-//  Created by Hugo Yu on 2016-06-09.
+//  Created by Hugo Yu on 2016-06-11.
 //  Copyright © 2016 Hugo Yu. All rights reserved.
 //
 
 import UIKit
 import SwiftyDropbox
 
-let CELL_REUSE_ID_LOAD_INDIC = "tableCell_loadingIndicator"
-let CELL_REUSE_ID_CLOUD_ACC = "tableCell_cloudAccount"
-let CELL_REUSE_ID_ADD_ACC = "tableCell_addAccount"
+let SEGUE_ID_SHOW_ACC_SETTINGS_DETAILS = "showAccSettingsDetails"
 
-let SEGUE_ID_ADD_ACC = "addAccount"
-
-let USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS = "cloudAccConfigs"
-
-let IMAGE_NAME_DROPBOX_ICON = "Image_Dropbox_square"
-let IMAGE_NAME_GDRIVE_ICON = "Image_GDrive_square"
-let IMAGE_NAME_ONEDRIVE_ICON = "Image_OneDrive_square"
-
-let CLOUD_SERVICES_NUM = 3 // total number of cloud services available
-
-class CloudAccountVC: UITableViewController, AddAccountDelegate {
+class SettingsVC: UITableViewController, ModifyCloudAccountConfigDelegate {
     var myCloudAccountCells = [CloudAccountTableCell]()
-    var cloudServicesAvailableToAdd = [CloudServiceProvider?](count: CLOUD_SERVICES_NUM, repeatedValue: nil)
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     var encodedCloudAccConfigs = [NSData](count: CLOUD_SERVICES_NUM, repeatedValue: NSData())
@@ -49,30 +36,18 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
         refreshCloudAccounts()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // deselect table cell if swiped back
-        if let selectedIndexPath = self.tableView.indexPathForSelectedRow {
-            self.tableView.deselectRowAtIndexPath(selectedIndexPath, animated: true)
-        }
-    }
-    
+    // MARK: UITableViewController
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "ACCOUNTS"
+        return "CLOUD SERVICES"
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (accountsReloaded) { // refreshed
-            if (myCloudAccountCells.count == CLOUD_SERVICES_NUM) { // all avaliable cloud services have been added, no "add account" cell needed
-                return CLOUD_SERVICES_NUM
-            } else { // still has available cloud services to add, present the "add account" button
-                return myCloudAccountCells.count + 1
-            }
+            return myCloudAccountCells.count
         } else { // refreshing, display the loading indicator cell
             return 1
         }
@@ -80,11 +55,7 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if (accountsReloaded) { // refreshed
-            if (indexPath.row == myCloudAccountCells.count) { // reaches the end of all user accounts, return "add account" cell
-                return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_ADD_ACC)!
-            } else {
-                return myCloudAccountCells[indexPath.row]
-            }
+            return myCloudAccountCells[indexPath.row]
         } else { // refreshing, display the loading indicator cell
             return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!
         }
@@ -94,18 +65,16 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = segue.identifier {
             switch (identifier) {
-            case SEGUE_ID_ADD_ACC:
-                let addAccVC = (segue.destinationViewController as! UINavigationController).topViewController as! AddAccountVC
+            case SEGUE_ID_SHOW_ACC_SETTINGS_DETAILS:
+                let accSettingsDetailsVC = segue.destinationViewController as! AccountSettingsDetailsVC
                 
-                var availableCloudServiceCells = [CloudServiceTableCell]()
-                for cloudService in cloudServicesAvailableToAdd {
-                    if let cloudService = cloudService {
-                        availableCloudServiceCells.append(getCloudServiceCell(addAccVC.tableView, serviceProvider: cloudService))
-                    }
-                }
+                // get selected table cell index
+                let selectedRow = self.tableView.indexPathForSelectedRow!.row
                 
-                addAccVC.delegate = self
-                addAccVC.availableCloudServiceCells = availableCloudServiceCells
+                // set AccSettingsDetailsVC's accountConfig
+                accSettingsDetailsVC.accountConfig = NSKeyedUnarchiver.unarchiveObjectWithData(self.encodedCloudAccConfigs[selectedRow]) as! CloudAccountConfig
+                // set self as AccSettingsDetailsVC's;s delegate
+                accSettingsDetailsVC.delegate = self
                 break
             default:
                 break
@@ -114,10 +83,8 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
     }
     
     // MARK: delegate
-    func didAddNewAccount(serviceProvider: CloudServiceProvider) {
-        checkAccount(serviceProvider, completion: {
-            self.tableView.reloadSections(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowAnimation: UITableViewRowAnimation.Automatic)
-        })
+    func didModifyCloudAccountConfig(newAccConfig: CloudAccountConfig, atIndex: Int) {
+        updateEncodedConfigs(newAccConfig, atIndex: atIndex)
     }
     
     func getCloudAccountCell(serviceProvider: CloudServiceProvider, userName: String) -> CloudAccountTableCell{
@@ -143,45 +110,25 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
         return cloudAccountCell
     }
     
-    func getCloudServiceCell(tableView: UITableView, serviceProvider: CloudServiceProvider) -> CloudServiceTableCell{
-        let cloudServiceCell = tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_SERVICE) as! CloudServiceTableCell
-        
-        // set image
-        switch (serviceProvider) {
-        case .Dropbox:
-            cloudServiceCell.image_logo.image = UIImage(named: IMAGE_NAME_DROPBOX_LOGO)
-            break
-        case .GDrive:
-            cloudServiceCell.image_logo.image = UIImage(named: IMAGE_NAME_GDRIVE_LOGO)
-            break
-        case .OneDrive:
-            cloudServiceCell.image_logo.image = UIImage(named: IMAGE_NAME_ONEDRIVE_LOGO)
-            break
-        }
-        
-        cloudServiceCell.serviceProvider = serviceProvider
-        
-        return cloudServiceCell
-    }
-    
     func checkAccount(serviceProvider: CloudServiceProvider, completion: (() -> Void)?) {
         switch (serviceProvider) {
         case .Dropbox:
-            cloudServicesAvailableToAdd[0] = CloudServiceProvider.Dropbox
             if let client = Dropbox.authorizedClient {
                 // Get the current user's account info
                 client.users.getCurrentAccount().response { response, error in
                     if let account = response {
                         let dropboxAccCell = self.getCloudAccountCell(CloudServiceProvider.Dropbox, userName: account.name.displayName)
                         
-                        self.myCloudAccountCells.append(dropboxAccCell)
-                        self.cloudServicesAvailableToAdd[0] = nil
-                        
-                        // create config file if it doesn't exist
-                        if (NSKeyedUnarchiver.unarchiveObjectWithData(self.encodedCloudAccConfigs[0]) as? CloudAccountConfig) == nil {
-                            self.encodedCloudAccConfigs[0] = NSKeyedArchiver.archivedDataWithRootObject(CloudAccountConfig(serviceProviderName: "Dropbox"))
-                            self.userDefaults.setObject(self.encodedCloudAccConfigs, forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
+                        // set config file
+                        if let cloudAccConfig = NSKeyedUnarchiver.unarchiveObjectWithData(self.encodedCloudAccConfigs[0]) as? CloudAccountConfig {
+                            dropboxAccCell.accountConfig = cloudAccConfig
+                        } else {
+                            let newCloudAccConfig = CloudAccountConfig(serviceProviderName: "Dropbox")
+                            dropboxAccCell.accountConfig = newCloudAccConfig
+                            
+                            self.updateEncodedConfigs(newCloudAccConfig, atIndex: 0)
                         }
+                        self.myCloudAccountCells.append(dropboxAccCell)
                         
                         completion?()
                     } else {
@@ -194,11 +141,9 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
             }
             break
         case .GDrive:
-            cloudServicesAvailableToAdd[1] = CloudServiceProvider.GDrive
             completion?()
             break
         case .OneDrive:
-            cloudServicesAvailableToAdd[2] = CloudServiceProvider.OneDrive
             completion?()
             break
         }
@@ -223,6 +168,11 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
             // reload data
             self.tableView.reloadSections(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowAnimation: UITableViewRowAnimation.Automatic)
         }
+    }
+    
+    func updateEncodedConfigs(newAccConfig: CloudAccountConfig, atIndex: Int) {
+        encodedCloudAccConfigs[atIndex] = NSKeyedArchiver.archivedDataWithRootObject(newAccConfig)
+        userDefaults.setObject(self.encodedCloudAccConfigs, forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
     }
     
 }
