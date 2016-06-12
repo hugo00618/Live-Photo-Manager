@@ -57,7 +57,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lf6-FM-Cao" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2094" y="75"/>
+            <point key="canvasLocation" x="2156" y="75"/>
         </scene>
         <!--Live Photos-->
         <scene sceneID="llq-cA-Po6">
@@ -111,7 +111,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dek-u9-ilr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1344" y="75"/>
+            <point key="canvasLocation" x="1398" y="75"/>
         </scene>
         <!--Cloud Services-->
         <scene sceneID="yu5-UT-RFJ">
@@ -162,7 +162,6 @@
                                 <connections>
                                     <outlet property="image_icon" destination="hYO-RU-VfQ" id="TCj-UN-Bkp"/>
                                     <outlet property="label_userName" destination="R7Q-MR-5em" id="Ke8-ut-cn0"/>
-                                    <segue destination="L4e-ca-JuY" kind="show" id="Bgh-bw-vDp"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell_addAccount" id="FFQ-Vp-nNj">
@@ -185,7 +184,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="heH-V2-3a7" kind="show" identifier="addAccount" id="rOd-wu-o32"/>
+                                    <segue destination="heH-V2-3a7" kind="presentation" identifier="addAccount" id="rOd-wu-o32"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -201,7 +200,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h0g-iF-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1344" y="812"/>
+            <point key="canvasLocation" x="1398" y="812"/>
         </scene>
         <!--Add Account-->
         <scene sceneID="pWx-EE-sWc">
@@ -268,7 +267,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xR8-jX-rC8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866" y="812"/>
+            <point key="canvasLocation" x="2156" y="1598"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="jEj-oU-QBg">
@@ -353,7 +352,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2l9-Om-938" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1344" y="2394"/>
+            <point key="canvasLocation" x="2156" y="2394"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="AZI-Cv-E5J">
@@ -442,7 +441,30 @@
                                 <connections>
                                     <outlet property="image_icon" destination="4EU-95-962" id="BAf-ta-srr"/>
                                     <outlet property="label_userName" destination="XDV-JI-CrT" id="wGt-hd-VFC"/>
-                                    <segue destination="gij-Xa-8v8" kind="show" identifier="showAccSettingsDetails" id="BLM-db-3Bq"/>
+                                    <segue destination="DdQ-Pq-AsV" kind="presentation" identifier="showAccSettingsDetails" id="fdM-4t-MQd"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell_addAccount" id="OOD-In-tcw">
+                                <rect key="frame" x="0.0" y="201.5" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OOD-In-tcw" id="74v-mR-Gcr">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIR-rW-gGA">
+                                            <rect key="frame" x="250.5" y="11" width="99" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="IIR-rW-gGA" firstAttribute="centerY" secondItem="74v-mR-Gcr" secondAttribute="centerY" id="Jxn-83-S2c"/>
+                                        <constraint firstItem="IIR-rW-gGA" firstAttribute="centerX" secondItem="74v-mR-Gcr" secondAttribute="centerX" id="lIZ-2p-qz4"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="heH-V2-3a7" kind="presentation" identifier="addAccount" id="asK-a3-dTC"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -457,92 +479,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erS-zB-3EL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="586" y="1598"/>
-        </scene>
-        <!--Dropbox-->
-        <scene sceneID="1d3-nD-4YL">
-            <objects>
-                <tableViewController id="L4e-ca-JuY" customClass="CloudAccountDetailVC" customModule="Live_Photos" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="ypZ-HB-1BG">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <sections>
-                            <tableViewSection id="1nb-gv-Zoh">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oO8-ww-h2n">
-                                        <rect key="frame" x="0.0" y="99" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oO8-ww-h2n" id="3Fy-6i-2Oc">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upload to Dropbox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="141-J1-2c5">
-                                                    <rect key="frame" x="227.5" y="11" width="145" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="141-J1-2c5" firstAttribute="centerX" secondItem="3Fy-6i-2Oc" secondAttribute="centerX" id="Kcf-CN-akv"/>
-                                                <constraint firstItem="141-J1-2c5" firstAttribute="centerY" secondItem="3Fy-6i-2Oc" secondAttribute="centerY" id="dxh-9S-whU"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="HiR-QC-ccU">
-                                        <rect key="frame" x="0.0" y="143" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HiR-QC-ccU" id="8IZ-Bt-tIa">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download to Photo Album" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlT-VV-foP">
-                                                    <rect key="frame" x="200.5" y="11" width="199" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="xlT-VV-foP" firstAttribute="centerX" secondItem="8IZ-Bt-tIa" secondAttribute="centerX" id="Ote-Gp-bJz"/>
-                                                <constraint firstItem="xlT-VV-foP" firstAttribute="centerY" secondItem="8IZ-Bt-tIa" secondAttribute="centerY" id="Vm6-FP-NI3"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection id="JHk-9Y-avx">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="dr1-p3-DWF" style="IBUITableViewCellStyleDefault" id="mGc-As-Q3U">
-                                        <rect key="frame" x="0.0" y="223" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mGc-As-Q3U" id="bIM-JK-bez">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dr1-p3-DWF">
-                                                    <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="L4e-ca-JuY" id="PXU-LR-d4l"/>
-                            <outlet property="delegate" destination="L4e-ca-JuY" id="Qeo-bH-qWi"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Dropbox" id="N7y-Aa-fan"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VpL-Pb-Cle" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1344" y="1598"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Qq8-JU-YdI">
@@ -622,8 +558,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Out" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3K1-xf-O0R">
-                                                    <rect key="frame" x="266.5" y="11" width="67" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlink" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3K1-xf-O0R">
+                                                    <rect key="frame" x="276" y="11" width="48" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -663,7 +599,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vdD-9I-PHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="586" y="2394"/>
+            <point key="canvasLocation" x="1398" y="2394"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rZk-c8-gKK">
@@ -681,7 +617,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DV0-pp-Jbc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2094" y="812"/>
+            <point key="canvasLocation" x="1398" y="1598"/>
         </scene>
         <!--Photos-->
         <scene sceneID="Lpt-vV-gfk">
@@ -721,6 +657,24 @@
             </objects>
             <point key="canvasLocation" x="-236" y="1598"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="y3D-4f-zvu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DdQ-Pq-AsV" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hwf-JG-Kut">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="gij-Xa-8v8" kind="relationship" relationship="rootViewController" id="wJE-IO-Twa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v3F-eG-xSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="586" y="2394"/>
+        </scene>
     </scenes>
     <resources>
         <image name="BarIcon_Cloud" width="40" height="25"/>
@@ -733,4 +687,7 @@
         <image name="Image_Dropbox_square" width="28" height="28"/>
         <image name="ToolIcon_Upload" width="29" height="27"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="rOd-wu-o32"/>
+    </inferredMetricsTieBreakers>
 </document>

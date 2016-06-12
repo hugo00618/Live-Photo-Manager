@@ -7,12 +7,8 @@
 //
 
 import UIKit
+import Foundation
 import SwiftyDropbox
-
-let ACC_DLG_NUM_DEFAULT  = 0
-let ACC_DLG_NUM_DROPBOX  = 1
-let ACC_DLG_NUM_GDRIVE   = 2
-let ACC_DLG_NUM_ONEDRIVE = 3
 
 let IMAGE_NAME_DROPBOX_LOGO = "Image_Dropbox"
 let IMAGE_NAME_GDRIVE_LOGO = "Image_GDrive"
@@ -20,40 +16,65 @@ let IMAGE_NAME_ONEDRIVE_LOGO = "Image_OneDrive"
 
 let CELL_REUSE_ID_CLOUD_SERVICE = "tableCell_cloudServiceProvider"
 
+enum AddAccountDialog {
+    case Default
+    case Dropbox
+    case GDrive
+    case OneDrive
+}
+
 protocol AddAccountDelegate {
-    func didAddNewAccount(serviceProvider: CloudServiceProvider)
+    func didAddNewAccount()
 }
 
 class AddAccountVC: UITableViewController {
-    var availableCloudServiceCells = [CloudServiceTableCell]()
+    let availableCloudServices = CloudAccountManager.getAvailableCloudServices()
     var delegate: AddAccountDelegate?
     
     // flag indicating which cloud service is adding
-    var addAccountDialog = ACC_DLG_NUM_DEFAULT
+    var addAccountDialog = AddAccountDialog.Default
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        // check which scene it is coming from
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationIsActive), name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+    
+    func applicationIsActive(notification: NSNotification) {
+        // check incoming scene
         switch (addAccountDialog) {
-        case ACC_DLG_NUM_DROPBOX:
-            if (Dropbox.authorizedClient != nil) { // authorization success
-                delegate?.didAddNewAccount(CloudServiceProvider.Dropbox)
+        case .Dropbox:
+            if let client = Dropbox.authorizedClient { // authorization succeeded
+                // Get the current user's account info
+                client.users.getCurrentAccount().response { response, error in
+                    if let account = response { // success
+                        CloudAccountManager.writeAccConfig(CloudAccountConfig(serviceProviderName: CloudServiceProvider.Dropbox.rawValue, userName: account.name.displayName))
+                        
+                        self.delegate?.didAddNewAccount()
+                    } else {
+                        print(error!)
+                    }
+                }
             } else { // authorization failed
                 let alertView = UIAlertView(title: "Authorization Failed", message: nil, delegate: nil, cancelButtonTitle: "Dismiss")
                 alertView.show()
             }
+            
             self.dismissViewControllerAnimated(true, completion: nil)
             break
-        case ACC_DLG_NUM_GDRIVE:
+        case .GDrive:
             break
-        case ACC_DLG_NUM_ONEDRIVE:
+        case .OneDrive:
             break
         default:
             break
         }
-        addAccountDialog = ACC_DLG_NUM_DEFAULT
         
+        addAccountDialog = AddAccountDialog.Default
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     // MARK: UITableViewController
@@ -62,11 +83,11 @@ class AddAccountVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return availableCloudServiceCells.count
+        return availableCloudServices.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return availableCloudServiceCells[indexPath.row]
+        return CloudAccountManager.getCloudServiceCell(self.tableView, serviceProvider: availableCloudServices[indexPath.row])
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -76,13 +97,15 @@ class AddAccountVC: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as? CloudServiceTableCell {
             switch (selectedCell.serviceProvider!) {
-            case CloudServiceProvider.Dropbox:
-                addAccountDialog = ACC_DLG_NUM_DROPBOX
+            case .Dropbox:
+                addAccountDialog = AddAccountDialog.Dropbox
                 Dropbox.authorizeFromController(self)
                 break
-            case CloudServiceProvider.GDrive:
+            case .GDrive:
+                addAccountDialog = AddAccountDialog.GDrive
                 break
-            case CloudServiceProvider.OneDrive:
+            case .OneDrive:
+                addAccountDialog = AddAccountDialog.OneDrive
                 break
             }
         }

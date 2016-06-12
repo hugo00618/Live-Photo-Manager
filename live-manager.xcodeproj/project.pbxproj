@@ -40,6 +40,7 @@
 		9AB8B3F11CBB571E0068052B /* live_managerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB8B3F01CBB571E0068052B /* live_managerTests.swift */; };
 		9AB8B3FC1CBB571E0068052B /* live_managerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB8B3FB1CBB571E0068052B /* live_managerUITests.swift */; };
 		9AB8B4101CBD3BA20068052B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB8B40F1CBD3BA20068052B /* Photos.framework */; };
+		9ACC7B4A1D0CF99C004AD05C /* CloudAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC7B491D0CF99C004AD05C /* CloudAccountManager.swift */; };
 		9AE1D5421D0A82D000F63790 /* CloudTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1D5411D0A82D000F63790 /* CloudTableCell.swift */; };
 		9AF2BA521D069EF30003D7C4 /* FileUnsupportedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2BA511D069EF30003D7C4 /* FileUnsupportedVC.swift */; };
 		9AF2BA5C1D079A350003D7C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A4A84641CBF284700497539 /* Assets.xcassets */; };
@@ -247,6 +248,7 @@
 		9AB8B3FB1CBB571E0068052B /* live_managerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = live_managerUITests.swift; sourceTree = "<group>"; };
 		9AB8B3FD1CBB571E0068052B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AB8B40F1CBD3BA20068052B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		9ACC7B491D0CF99C004AD05C /* CloudAccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudAccountManager.swift; sourceTree = "<group>"; };
 		9AE1D5411D0A82D000F63790 /* CloudTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudTableCell.swift; sourceTree = "<group>"; };
 		9AF2BA511D069EF30003D7C4 /* FileUnsupportedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUnsupportedVC.swift; sourceTree = "<group>"; };
 		E229935EC2C4183FD16AAEBE /* Pods-Live Photos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Live Photos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Live Photos/Pods-Live Photos.debug.xcconfig"; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				9A2E41CB1D0BDA3900AAF820 /* SettingsVC.swift */,
 				9A2E41CD1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift */,
 				9A2E41C91D0BD3FC00AAF820 /* CloudAccountConfig.swift */,
+				9ACC7B491D0CF99C004AD05C /* CloudAccountManager.swift */,
 				9A4A84671CBF284700497539 /* Main.storyboard */,
 				9A4A84641CBF284700497539 /* Assets.xcassets */,
 				9A4A84651CBF284700497539 /* LaunchScreen.storyboard */,
@@ -774,6 +777,7 @@
 				9A4A84721CBF284700497539 /* AppDelegate.swift in Sources */,
 				9A4A84711CBF284700497539 /* AddAccountVC.swift in Sources */,
 				9A2E41CC1D0BDA3900AAF820 /* SettingsVC.swift in Sources */,
+				9ACC7B4A1D0CF99C004AD05C /* CloudAccountManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

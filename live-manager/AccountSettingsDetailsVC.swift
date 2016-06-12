@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol ModifyCloudAccountConfigDelegate {
-    func didModifyCloudAccountConfig(newAccConfig: CloudAccountConfig, atIndex: Int)
+protocol AccountSettingsDetailsDelegate {
+    func didRemoveAccount()
 }
 
 class AccountSettingsDetailsVC: UITableViewController {
@@ -19,7 +19,7 @@ class AccountSettingsDetailsVC: UITableViewController {
     @IBOutlet weak var tableCell_signOut: UITableViewCell!
     
     var accountConfig: CloudAccountConfig?
-    var delegate: ModifyCloudAccountConfigDelegate?
+    var delegate: AccountSettingsDetailsDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,30 +37,64 @@ class AccountSettingsDetailsVC: UITableViewController {
         }
     }
     
+    // MARK: UITableViewController
+    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if (section != 0) {
+            return ""
+        }
+        
+        switch (accountConfig!.serviceProviderName) {
+        case "Dropbox":
+            return "Automatically uploads Live Photos to your Dropbox's \"Camera Uploads\" folder if enabled."
+        case "Google Drive":
+            return "Automatically uploads Live Photos to your Google Drive's \"Google Photos\" folder if enabled."
+        case "OneDrive":
+            return "Automatically uploads Live Photos to your OneDrive's \"Pictures\\Camera Roll\" folder if enabled."
+        default:
+            return ""
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch (indexPath.section) {
+        case 2: // sign out
+            let signOutConfirmationMessage: String? = accountConfig!.autoUpload ? ("This will turn off Auto Upload for " + accountConfig!.serviceProviderName) : nil
+            
+            let signOutConfirmationAlert = UIAlertController(title: nil, message: signOutConfirmationMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            
+            let signoutAction = UIAlertAction(title: "Unlink", style: UIAlertActionStyle.Destructive, handler: {(action: UIAlertAction) in
+                // unlink account
+                CloudAccountManager.unlinkAccount(self.accountConfig!.serviceProviderName)
+                
+                // call back and dismiss current VC
+                self.delegate!.didRemoveAccount()
+                self.dismissViewControllerAnimated(true, completion: nil)
+                })
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            signOutConfirmationAlert.addAction(signoutAction)
+            signOutConfirmationAlert.addAction(cancelAction)
+            
+            self.presentViewController(signOutConfirmationAlert, animated: true, completion: {
+                self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            })
+            break
+        default:
+            break
+        }
+    }
+    
     // MARK: Actions
     @IBAction func didClickCancel(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func didClickSave(sender: AnyObject) {
-        // save data
+        // save data and write to userDefaults
         accountConfig?.autoUpload = switch_autoUpload.on
+        CloudAccountManager.writeAccConfig(accountConfig!)
         
         // call back
-        delegate?.didModifyCloudAccountConfig(accountConfig!, atIndex: getServiceProviderIndex())
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func getServiceProviderIndex() -> Int {
-        switch (accountConfig!.serviceProviderName) {
-        case "Dropbox":
-            return 0
-        case "Google Drive":
-            return 1
-        case "OneDrive":
-            return 2
-        default:
-            return -1
-        }
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

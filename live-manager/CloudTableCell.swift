@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum CloudServiceProvider {
-    case Dropbox
-    case GDrive
-    case OneDrive
-}
-
 class CloudAccountTableCell: UITableViewCell {
     @IBOutlet weak var image_icon: UIImageView!
     @IBOutlet weak var label_userName: UILabel!
