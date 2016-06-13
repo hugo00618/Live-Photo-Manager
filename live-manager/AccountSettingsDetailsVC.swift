@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol AccountSettingsDetailsDelegate {
-    func didRemoveAccount()
-}
-
 class AccountSettingsDetailsVC: UITableViewController {
     
     @IBOutlet weak var switch_autoUpload: UISwitch!
@@ -19,7 +15,6 @@ class AccountSettingsDetailsVC: UITableViewController {
     @IBOutlet weak var tableCell_signOut: UITableViewCell!
     
     var accountConfig: CloudAccountConfig?
-    var delegate: AccountSettingsDetailsDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +54,14 @@ class AccountSettingsDetailsVC: UITableViewController {
         switch (indexPath.section) {
         case 2: // sign out
             let signOutConfirmationMessage: String? = accountConfig!.autoUpload ? ("This will turn off Auto Upload for " + accountConfig!.serviceProviderName) : nil
+            let signOutConfirmationTitle: String? = signOutConfirmationMessage == nil ? nil : ""
             
-            let signOutConfirmationAlert = UIAlertController(title: nil, message: signOutConfirmationMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let signOutConfirmationAlert = UIAlertController(title: signOutConfirmationTitle, message: signOutConfirmationMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
             
             let signoutAction = UIAlertAction(title: "Unlink", style: UIAlertActionStyle.Destructive, handler: {(action: UIAlertAction) in
                 // unlink account
                 CloudAccountManager.unlinkAccount(self.accountConfig!.serviceProviderName)
                 
-                // call back and dismiss current VC
-                self.delegate!.didRemoveAccount()
                 self.dismissViewControllerAnimated(true, completion: nil)
                 })
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)

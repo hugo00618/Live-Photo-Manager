@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Save as-->
+        <!--Save to Album as-->
         <scene sceneID="8Fh-JI-14e">
             <objects>
                 <tableViewController id="sdN-5S-C6Y" customClass="ActionViewController" customModule="live_manager_action_extension" customModuleProvider="target" sceneMemberID="viewController">
@@ -96,7 +96,7 @@
                             <outlet property="delegate" destination="sdN-5S-C6Y" id="TAA-aP-X8v"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Save as" id="XDH-bM-bYo">
+                    <navigationItem key="navigationItem" title="Save to Album as" id="XDH-bM-bYo">
                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="muE-0h-tDa">
                             <connections>
                                 <action selector="cancel:" destination="sdN-5S-C6Y" id="87Z-6c-yi8"/>
@@ -118,7 +118,7 @@
             </objects>
             <point key="canvasLocation" x="1182" y="-711"/>
         </scene>
-        <!--Save as-->
+        <!--Save to Album-->
         <scene sceneID="RfW-Ky-Ez4">
             <objects>
                 <viewController id="g0p-l4-Dp1" customClass="FileUnsupportedVC" customModule="live_manager_action_extension" customModuleProvider="target" sceneMemberID="viewController">
@@ -144,7 +144,7 @@
                             <constraint firstItem="UKU-29-de5" firstAttribute="top" secondItem="dGf-To-bd1" secondAttribute="bottom" constant="106" id="j59-bv-7nH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Save as" id="skv-ht-KZV">
+                    <navigationItem key="navigationItem" title="Save to Album" id="skv-ht-KZV">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="heF-7o-WpP">
                             <connections>
                                 <action selector="cancel:" destination="g0p-l4-Dp1" id="kPy-uh-r0Y"/>

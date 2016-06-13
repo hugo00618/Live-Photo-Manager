@@ -19,22 +19,23 @@ let IMAGE_NAME_DROPBOX_ICON = "Image_Dropbox_square"
 let IMAGE_NAME_GDRIVE_ICON = "Image_GDrive_square"
 let IMAGE_NAME_ONEDRIVE_ICON = "Image_OneDrive_square"
 
-class CloudAccountVC: UITableViewController, AddAccountDelegate {
+class CloudAccountVC: UITableViewController {
     
     var decodedAccConfigs = [CloudAccountConfig]()
     
-    /*    override func viewDidLoad() {
-     // get cloudAccConfig data
-     if let encodedCloudAccConfigs = userDefaults.objectForKey(USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS) as? [NSData] { // if data exists
-     self.encodedCloudAccConfigs = encodedCloudAccConfigs
-     } else {
-     userDefaults.setObject(encodedCloudAccConfigs, forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
-     }
-     
-     // reload accounts
-     self.tableView.reloadData()
-     refreshCloudAccounts()
-     } */
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // add observer for Cloud Account changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(cloudAccUpdated), name: NOTIFICATION_NAME_CLOUD_ACC_UPDATED, object: nil)
+        
+        // reload
+        reloadFirstSection()
+    }
+    
+    func cloudAccUpdated() {
+        reloadFirstSection()
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -44,12 +45,12 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
             self.tableView.deselectRowAtIndexPath(selectedIndexPath, animated: true)
         }
         
-        // check if view needs to be reloaded
-        if !CloudAccountManager.reloaded { // reload needed
-            reloadTableView()
-        } else {
-            decodedAccConfigs = CloudAccountManager.getDecodedAccConfigs()
-        }
+//        // check if view needs to reloaded
+//        if reloadRequired {
+//            reloadTableView()
+//        } else {
+//            decodedAccConfigs = CloudAccountManager.getDecodedAccConfigs()
+//        }
     }
     
     // MARK: UITableViewController
@@ -62,26 +63,26 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if CloudAccountManager.reloaded { // refreshed
-            if decodedAccConfigs.count == CLOUD_SERVICES_NUM { // all avaliable cloud services have been added, no "add account" cell needed
+        if CloudAccountManager.reloading { // reloading, display the loading indicator cell
+            return 1
+        } else {
+         if decodedAccConfigs.count == CLOUD_SERVICES_NUM { // all avaliable cloud services have been added, no "add account" cell needed
                 return CLOUD_SERVICES_NUM
             } else { // still has available cloud services to add, present the "add account" button
                 return decodedAccConfigs.count + 1
             }
-        } else { // refreshing, display the loading indicator cell
-            return 1
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if CloudAccountManager.reloaded { // refreshed
+        if CloudAccountManager.reloading { // reloading, display the loading indicator cell
+            return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!
+        } else { // reloaded
             if indexPath.row == decodedAccConfigs.count { // reaches the end of all user accounts, return "add account" cell
                 return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_ADD_ACC)!
             } else {
                 return CloudAccountManager.getCloudAccountCell(self.tableView, accConfig: decodedAccConfigs[indexPath.row])
             }
-        } else { // refreshing, display the loading indicator cell
-            return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!
         }
     }
     
@@ -91,7 +92,6 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
             switch (identifier) {
             case SEGUE_ID_ADD_ACC:
                 let addAccVC = (segue.destinationViewController as! UINavigationController).topViewController as! AddAccountVC
-                addAccVC.delegate = self
                 break
             default:
                 break
@@ -99,16 +99,11 @@ class CloudAccountVC: UITableViewController, AddAccountDelegate {
         }
     }
     
-    // MARK: delegate
-    func didAddNewAccount() {
-        reloadTableView()
-    }
     
-    
-    func reloadTableView() {
-        self.tableView.reloadData()
-        CloudAccountManager.reload(reloadFirstSection)
-    }
+//    func reloadTableView() {
+//        self.tableView.reloadData()
+//        CloudAccountManager.reload(reloadFirstSection)
+//    }
     
     func reloadFirstSection() {
         self.decodedAccConfigs = CloudAccountManager.getDecodedAccConfigs()

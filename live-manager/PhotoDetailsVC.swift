@@ -19,12 +19,14 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
     var videoURL: NSURL?
     var universalFileName: String!
     
-    //var hud:MBProgressHUD?
+    var cloudAccConfigs: [CloudAccountConfig]?
     
     @IBOutlet weak var liveImg_photo: PHLivePhotoView!
     @IBOutlet weak var progress_load: UIProgressView!
     
     @IBOutlet weak var barBtn_action: UIBarButtonItem!
+    @IBOutlet weak var barBtn_upload: UIBarButtonItem!
+    
     deinit {
         PHPhotoLibrary.sharedPhotoLibrary().unregisterChangeObserver(self)
     }
@@ -50,6 +52,11 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
             // dropbox style file name
             dateFormatter.dateFormat = "yyyy-MM-dd HH.mm.ss"
             universalFileName = dateFormatter.stringFromDate(asset.creationDate!)
+        }
+        
+        cloudAccConfigs = CloudAccountManager.getDecodedAccConfigs()
+        if cloudAccConfigs!.count == 0 { // no cloud accounts
+            barBtn_upload.enabled = false
         }
         
         liveImg_photo.delegate = self
@@ -119,6 +126,21 @@ class PhotoDetailsVC: UIViewController, PHPhotoLibraryChangeObserver, PHLivePhot
         let activityVC = UIActivityViewController(activityItems: [preparedZipURL!], applicationActivities: [])
         presentViewController(activityVC, animated: true, completion: {})
     }
+    
+    @IBAction func onClickUpload(sender: AnyObject) {
+        let uploadSelectionAlert = UIAlertController(title: "", message: "Select the account to upload the Live Photo: ", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        for cloudAccConfig in cloudAccConfigs! {
+            let cloudAccAction = UIAlertAction(title: cloudAccConfig.serviceProviderName, style: UIAlertActionStyle.Default, handler: nil)
+            uploadSelectionAlert.addAction(cloudAccAction)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        uploadSelectionAlert.addAction(cancelAction)
+        
+        self.presentViewController(uploadSelectionAlert, animated: true, completion: nil)
+    }
+    
     
     // MARK: PHPhotoLibraryChangeObserver
     func photoLibraryDidChange(changeInstance: PHChange) {

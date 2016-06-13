@@ -11,33 +11,25 @@ import SwiftyDropbox
 
 let SEGUE_ID_SHOW_ACC_SETTINGS_DETAILS = "showAccSettingsDetails"
 
-class SettingsVC: UITableViewController, AccountSettingsDetailsDelegate, AddAccountDelegate {
+class SettingsVC: UITableViewController {
     
     var decodedAccConfigs = [CloudAccountConfig]()
     
-    /*override func viewDidLoad() {
-     // get cloudAccConfig data
-     if let encodedCloudAccConfigs = userDefaults.objectForKey(USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS) as? [NSData] { // if data exists
-     self.encodedCloudAccConfigs = encodedCloudAccConfigs
-     } else {
-     userDefaults.setObject(encodedCloudAccConfigs, forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
-     }
-     
-     // reload accounts
-     accountsReloaded = false
-     self.tableView.reloadData()
-     refreshCloudAccounts()
-     }*/
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // add observer for Cloud Account changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(cloudAccUpdated), name: NOTIFICATION_NAME_CLOUD_ACC_UPDATED, object: nil)
+        
+        reloadFirstSection()
+    }
+    
+    func cloudAccUpdated() {
+        reloadFirstSection()
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // check if view needs to be reloaded
-        if !CloudAccountManager.reloaded { // reload needed
-            reloadTableView()
-        } else {
-            decodedAccConfigs = CloudAccountManager.getDecodedAccConfigs()
-        }
     }
     
     // MARK: UITableViewController
@@ -46,31 +38,31 @@ class SettingsVC: UITableViewController, AccountSettingsDetailsDelegate, AddAcco
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "CLOUD SERVICES"
+        return "CLOUD STORGAE ACCOUNTS"
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if CloudAccountManager.reloaded { // refreshed
+        if CloudAccountManager.reloading { // reloading, display the loading indicator cell
+            return 1
+        } else { // reloaded
             if decodedAccConfigs.count == CLOUD_SERVICES_NUM { // all avaliable cloud services have been added, no "add account" cell needed
                 return CLOUD_SERVICES_NUM
             } else { // still has available cloud services to add, present the "add account" button
                 return decodedAccConfigs.count + 1
             }
-        } else { // refreshing, display the loading indicator cell
-            return 1
         }
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if CloudAccountManager.reloaded { // refreshed
+        if (CloudAccountManager.reloading) { // reloading, display the loading indicator cell
+            return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!
+        } else { // reloaded
             if indexPath.row == decodedAccConfigs.count { // reaches the end of all user accounts, return "add account" cell
                 return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_ADD_ACC)!
             } else {
                 return CloudAccountManager.getCloudAccountCell(self.tableView, accConfig: decodedAccConfigs[indexPath.row])
             }
-        } else { // refreshing, display the loading indicator cell
-            return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!
         }
     }
     
@@ -87,32 +79,14 @@ class SettingsVC: UITableViewController, AccountSettingsDetailsDelegate, AddAcco
                 // set AccSettingsDetailsVC's accountConfig
                 accSettingsDetailsVC.accountConfig = self.decodedAccConfigs[selectedRow]
                 
-                // set self as AccSettingsDetailsVC's delegate
-                accSettingsDetailsVC.delegate = self
                 break
             case SEGUE_ID_ADD_ACC:
                 let addAccVC = (segue.destinationViewController as! UINavigationController).topViewController as! AddAccountVC
-                addAccVC.delegate = self
                 break
             default:
                 break
             }
         }
-    }
-    
-    // MARK: delegate
-    func didRemoveAccount() {
-        reloadFirstSection()
-    }
-    
-    func didAddNewAccount() {
-        reloadFirstSection()
-    }
-    
-    
-    func reloadTableView() {
-        self.tableView.reloadData()
-        CloudAccountManager.reload(reloadFirstSection)
     }
     
     func reloadFirstSection() {

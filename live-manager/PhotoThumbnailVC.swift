@@ -94,7 +94,7 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
         // set thumbnail image of cell
         self.imageManager.requestImageForAsset(myAsset, targetSize: assetGridThumbnailSize, contentMode: PHImageContentMode.AspectFit, options: requestImageOptions, resultHandler: {(result: UIImage?, info: [NSObject : AnyObject]?) in
             myCell.img_thumbnail.image = result
-            })
+        })
         
         return myCell
     }
@@ -128,37 +128,37 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
     
     
     /*func resetCachedAssets() {
-        imageManager.stopCachingImagesForAllAssets()
-        previousPreheatRect = CGRectZero
-    }
+     imageManager.stopCachingImagesForAllAssets()
+     previousPreheatRect = CGRectZero
+     }
+     
+     func updateCachedAssets() {
+     let isViewVisible = isViewLoaded() && self.view.window != nil
+     if (!isViewVisible) {
+     return
+     }
+     
+     // preheat content
+     var preheatRect = collection_photos.bounds
+     preheatRect = CGRectInset(preheatRect, 0, -0.5 * CGRectGetHeight(preheatRect))
+     
+     // check if the collection view is showing an area that is significantly different to the last preheated area.
+     let delta = abs(CGRectGetMidY(preheatRect) - CGRectGetMidY(previousPreheatRect))
+     if (delta > CGRectGetHeight(collection_photos.bounds) / 3.0) {
+     // compute assets to start caching and to stop caching
+     var addedIndexPaths = []
+     var removedIndexPaths = []
+     
+     computeDifferenceBetweenRect(preheatRect, newRect: preheatRect, removedHandler: { (removedRect) in
+     var indexPaths = collection_photos
+     }, addedHandler: <#T##(addedRect: CGRect) -> Void#>)
+     }
+     }
+     
+     func computeDifferenceBetweenRect(oldRect: CGRect, newRect: CGRect, removedHandler:(removedRect: CGRect)->Void, addedHandler: (addedRect: CGRect)->Void) {
+     
+     }*/
     
-    func updateCachedAssets() {
-        let isViewVisible = isViewLoaded() && self.view.window != nil
-        if (!isViewVisible) {
-            return
-        }
-        
-        // preheat content
-        var preheatRect = collection_photos.bounds
-        preheatRect = CGRectInset(preheatRect, 0, -0.5 * CGRectGetHeight(preheatRect))
-        
-        // check if the collection view is showing an area that is significantly different to the last preheated area.
-        let delta = abs(CGRectGetMidY(preheatRect) - CGRectGetMidY(previousPreheatRect))
-        if (delta > CGRectGetHeight(collection_photos.bounds) / 3.0) {
-            // compute assets to start caching and to stop caching
-            var addedIndexPaths = []
-            var removedIndexPaths = []
-            
-            computeDifferenceBetweenRect(preheatRect, newRect: preheatRect, removedHandler: { (removedRect) in
-                var indexPaths = collection_photos
-                }, addedHandler: <#T##(addedRect: CGRect) -> Void#>)
-        }
-    }
-    
-    func computeDifferenceBetweenRect(oldRect: CGRect, newRect: CGRect, removedHandler:(removedRect: CGRect)->Void, addedHandler: (addedRect: CGRect)->Void) {
-        
-    }*/
-
     
     
 }

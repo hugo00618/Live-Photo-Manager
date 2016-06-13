@@ -11,6 +11,8 @@ import SwiftyDropbox
 
 let USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS = "cloudAccConfigs"
 
+let NOTIFICATION_NAME_CLOUD_ACC_UPDATED = "cloudAccUpdated"
+
 let CLOUD_SERVICES_NUM = 3 // total number of cloud services available
 
 enum CloudServiceProvider: String {
@@ -22,12 +24,13 @@ enum CloudServiceProvider: String {
 }
 
 class CloudAccountManager {
-    
-    static var reloaded = false
-    
     private static let userDefaults = NSUserDefaults.standardUserDefaults()
     private static var cloudAccCheckedNum = 0
-    private static var cloudAccCheckcedCompletion: (() -> Void)?
+    static var reloading = false
+    
+    init() {
+        CloudAccountManager.reload()
+    }
     
     static func getCloudAccountCell(tableView: UITableView, accConfig: CloudAccountConfig) -> CloudAccountTableCell{
         let cloudAccountCell = tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_ACC) as! CloudAccountTableCell
@@ -74,9 +77,9 @@ class CloudAccountManager {
         return cloudServiceCell
     }
     
-    static func reload(completion: (() -> Void)?) {
+    private static func reload() {
         cloudAccCheckedNum = 0
-        cloudAccCheckcedCompletion = completion
+        reloading = true
         
         // check all services
         for cloudServiceProvider in CloudServiceProvider.allValues {
@@ -171,10 +174,8 @@ class CloudAccountManager {
         
         // refresh tableView if all accounts have been checked
         if (cloudAccCheckedNum == CLOUD_SERVICES_NUM) {
-            reloaded = true
-            if let cloudAccCheckcedCompletion = cloudAccCheckcedCompletion {
-                cloudAccCheckcedCompletion()
-            }
+            reloading = false
+            NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_NAME_CLOUD_ACC_UPDATED, object: nil)
         }
     }
     
@@ -220,6 +221,8 @@ class CloudAccountManager {
             // create file with newAccConfig
             userDefaults.setObject([encodedNewAccConfig], forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
         }
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_NAME_CLOUD_ACC_UPDATED, object: nil)
     }
     
     private static func removeAccConfig(serviceProviderName: String) {
@@ -230,10 +233,14 @@ class CloudAccountManager {
             
             if removeIndex != 1 { // configuration found
                 encodedAccConfigs.removeAtIndex(removeIndex)
+                
+                // write to userDefaults
+                userDefaults.setObject(encodedAccConfigs, forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(NOTIFICATION_NAME_CLOUD_ACC_UPDATED, object: nil)
             }
             
-            // write to userDefaults
-            userDefaults.setObject(encodedAccConfigs, forKey: USER_DEFAULTS_KEY_CLOUD_ACC_CONFIGS)
+            
         }
     }
     

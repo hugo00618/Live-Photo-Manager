@@ -23,13 +23,8 @@ enum AddAccountDialog {
     case OneDrive
 }
 
-protocol AddAccountDelegate {
-    func didAddNewAccount()
-}
-
 class AddAccountVC: UITableViewController {
     let availableCloudServices = CloudAccountManager.getAvailableCloudServices()
-    var delegate: AddAccountDelegate?
     
     // flag indicating which cloud service is adding
     var addAccountDialog = AddAccountDialog.Default
@@ -49,8 +44,7 @@ class AddAccountVC: UITableViewController {
                 client.users.getCurrentAccount().response { response, error in
                     if let account = response { // success
                         CloudAccountManager.writeAccConfig(CloudAccountConfig(serviceProviderName: CloudServiceProvider.Dropbox.rawValue, userName: account.name.displayName))
-                        
-                        self.delegate?.didAddNewAccount()
+                        self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
                         print(error!)
                     }
@@ -59,8 +53,6 @@ class AddAccountVC: UITableViewController {
                 let alertView = UIAlertView(title: "Authorization Failed", message: nil, delegate: nil, cancelButtonTitle: "Dismiss")
                 alertView.show()
             }
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
             break
         case .GDrive:
             break
@@ -99,6 +91,7 @@ class AddAccountVC: UITableViewController {
             switch (selectedCell.serviceProvider!) {
             case .Dropbox:
                 addAccountDialog = AddAccountDialog.Dropbox
+                showLoadingHUD()
                 Dropbox.authorizeFromController(self)
                 break
             case .GDrive:
@@ -114,5 +107,11 @@ class AddAccountVC: UITableViewController {
     // MARK: actions
     @IBAction func onClickCancel(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func showLoadingHUD() {
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let offSetY = self.navigationController!.navigationBar.frame.size.height / -2.0 * UIScreen.mainScreen().scale
+        hud.offset = CGPoint(x: 0.0, y: offSetY)
     }
 }

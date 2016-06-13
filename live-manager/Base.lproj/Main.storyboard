@@ -43,7 +43,11 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Enr-D9-Ix2"/>
-                        <barButtonItem image="ToolIcon_Upload" id="ecN-pS-e83"/>
+                        <barButtonItem image="ToolIcon_Upload" id="ecN-pS-e83">
+                            <connections>
+                                <action selector="onClickUpload:" destination="7wE-dk-D7I" id="SPD-uN-mNH"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="HOZ-3W-K9I"/>
                         <barButtonItem systemItem="trash" id="3nY-R6-5K1"/>
                     </toolbarItems>
@@ -51,6 +55,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="barBtn_action" destination="7f0-89-Fuq" id="xDD-ZL-77N"/>
+                        <outlet property="barBtn_upload" destination="ecN-pS-e83" id="B1i-sF-Poi"/>
                         <outlet property="liveImg_photo" destination="Gez-fj-Daz" id="vtF-vF-XVk"/>
                         <outlet property="progress_load" destination="bfK-vq-Y8V" id="I2M-EX-buW"/>
                     </connections>
@@ -113,7 +118,7 @@
             </objects>
             <point key="canvasLocation" x="1398" y="75"/>
         </scene>
-        <!--Cloud Services-->
+        <!--Cloud Storage-->
         <scene sceneID="yu5-UT-RFJ">
             <objects>
                 <tableViewController id="5aJ-k8-1QF" customClass="CloudAccountVC" customModule="Live_Photos" customModuleProvider="target" sceneMemberID="viewController">
@@ -194,7 +199,7 @@
                             <outlet property="delegate" destination="5aJ-k8-1QF" id="KXK-6W-Kan"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Cloud Services" id="fE1-no-qcQ">
+                    <navigationItem key="navigationItem" title="Cloud Storage" id="fE1-no-qcQ">
                         <barButtonItem key="backBarButtonItem" title="Back" id="zhZ-mU-eSl"/>
                     </navigationItem>
                 </tableViewController>
