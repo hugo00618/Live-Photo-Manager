@@ -1,15 +1,18 @@
 PODS:
   - Alamofire (3.1.5)
+  - MBProgressHUD (0.9.2)
   - SwiftyDropbox (3.0.0):
     - Alamofire (~> 3.1)
 
 DEPENDENCIES:
+  - MBProgressHUD
   - SwiftyDropbox
 
 SPEC CHECKSUMS:
   Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   SwiftyDropbox: e0d4aa3166082ec07ed942e94edb8c732b3376e4
 
-PODFILE CHECKSUM: ade95daceda7f87ed5adc22577f0310e038de4f5
+PODFILE CHECKSUM: 872720e87f57b324700710ea59849a5ff9a5ff5a
 
 COCOAPODS: 1.0.1

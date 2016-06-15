@@ -10,6 +10,6 @@
 #define live_manager_Bridging_Header_h
 
 #import "ZipZap/ZipZap.h"
-#import "MBProgressHUD/MBProgressHUD.h"
+#import "CSStickyHeaderFlowLayout.h"
 
 #endif /* live_manager_Bridging_Header_h */

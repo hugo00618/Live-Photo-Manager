@@ -9,12 +9,17 @@
 import UIKit
 import Photos
 
-let photoCellReuseId = "PhotoCell"
-let showPhotoDetailsSegueId = "ShowPhotoDetails"
+let REUSE_ID_PHOTO_CELL = "PhotoCell"
+let REUSE_ID_SHOT_DATE_HEADER = "ShotDateHeader"
+
+let SEGUE_ID_SHOW_PHOTO_DETAILS = "ShowPhotoDetails"
 
 class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver {
     
-    var fetchResult: PHFetchResult!
+    var myFetchResult: PHFetchResult!
+    var assetsByDate = [[PHAsset]]()
+    var creationDates = [String]()
+    
     var imageManager: PHCachingImageManager!
     var previousPreheatRect: CGRect!
     var assetGridThumbnailSize: CGSize!
@@ -27,10 +32,7 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
         //resetCachedAssets()
         
         // fetch live photos
-        let livePhotosFetchOptions = PHFetchOptions()
-        livePhotosFetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        livePhotosFetchOptions.predicate = NSPredicate(format: "mediaSubtype == %ld", PHAssetMediaSubtype.PhotoLive.rawValue)
-        fetchResult = PHAsset.fetchAssetsWithOptions(livePhotosFetchOptions)
+        fetchLivePhotos()
         
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
     }
@@ -59,30 +61,20 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
         //updateCachedAssets()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == showPhotoDetailsSegueId) {
-            // get destination VC
-            let myPhotoDetailsVC = segue.destinationViewController as! PhotoDetailsVC
-            
-            // hide myPhotoDetailsVC's tab bar
-            myPhotoDetailsVC.hidesBottomBarWhenPushed = true
-            
-            // pass asset to myPhotoDetailsVC
-            let myIndexPath = collection_photos.indexPathForCell(sender as! UICollectionViewCell)
-            myPhotoDetailsVC.asset = fetchResult[myIndexPath!.item] as! PHAsset
-        }
+    // MARK: UICollectionViewDataSource
+    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return assetsByDate.count
     }
     
-    // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchResult.count
+        return assetsByDate[section].count
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let myAsset = fetchResult[indexPath.item] as! PHAsset
+        let myAsset = assetsByDate[indexPath.section][indexPath.row]
         
         // load reused cell
-        let myCell = collection_photos.dequeueReusableCellWithReuseIdentifier(photoCellReuseId, forIndexPath: indexPath) as! PhotoThumbnailCell
+        let myCell = collection_photos.dequeueReusableCellWithReuseIdentifier(REUSE_ID_PHOTO_CELL, forIndexPath: indexPath) as! PhotoThumbnailCell
         
         // prepare request image options to get cropped image
         let requestImageOptions = PHImageRequestOptions()
@@ -99,20 +91,50 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
         return myCell
     }
     
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            let header = self.collectionView?.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: REUSE_ID_SHOT_DATE_HEADER, forIndexPath: indexPath) as! PhotoShotDateHeader
+            
+            header.label_master.text = creationDates[indexPath.section]
+            
+            return header
+        default:
+            return UICollectionReusableView()
+        }
+    }
+    
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == SEGUE_ID_SHOW_PHOTO_DETAILS) {
+            // get destination VC
+            let myPhotoDetailsVC = segue.destinationViewController as! PhotoDetailsVC
+            
+            // hide myPhotoDetailsVC's tab bar
+            myPhotoDetailsVC.hidesBottomBarWhenPushed = true
+            
+            // pass asset to myPhotoDetailsVC
+            if let myIndexPath = collection_photos.indexPathForCell(sender as! UICollectionViewCell) {
+                myPhotoDetailsVC.asset = assetsByDate[myIndexPath.section][myIndexPath.row]
+            }
+        }
+    }
+    
     // MARK: PHPhotoLibraryChangeObserver
     func photoLibraryDidChange(changeInstance: PHChange) {
-        let changeDetails = changeInstance.changeDetailsForFetchResult(fetchResult)
+        let changeDetails = changeInstance.changeDetailsForFetchResult(myFetchResult)
         
         // check if there are changes to assets, update myFetchResult and reload collection view
         if (changeDetails != nil) {
             dispatch_async(dispatch_get_main_queue(), {
-                self.fetchResult = changeDetails?.fetchResultAfterChanges
+                self.myFetchResult = changeDetails?.fetchResultAfterChanges
+                self.loadAssetsByDate()
                 self.collection_photos.reloadData()
             })
         }
         
         // check if there is no live photos
-        if (fetchResult.count == 0) {
+        if (myFetchResult.count == 0) {
             
         } else {
             
@@ -124,6 +146,45 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
     // MARK: UIScrollViewDelegate
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         //updateCachedAssets()
+    }
+    
+    func loadFetchResult() {
+        let livePhotosFetchOptions = PHFetchOptions()
+        livePhotosFetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        livePhotosFetchOptions.predicate = NSPredicate(format: "mediaSubtype == %ld", PHAssetMediaSubtype.PhotoLive.rawValue)
+        myFetchResult = PHAsset.fetchAssetsWithOptions(livePhotosFetchOptions)
+    }
+    
+    func loadAssetsByDate() {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .MediumStyle
+        dateFormatter.timeStyle = .NoStyle
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        
+        var currentCreationDate = ""
+        var currentDateAssets: [PHAsset]? = nil
+        myFetchResult.enumerateObjectsUsingBlock { (obj: AnyObject, idx: Int, stop: UnsafeMutablePointer<ObjCBool>) in
+            if let asset = obj as? PHAsset {
+                let assetCreationDate = dateFormatter.stringFromDate(asset.creationDate!)
+                
+                if assetCreationDate == currentCreationDate { // asset's creation date matches currentCreationDate, continue to add to currentDateAssests
+                    currentDateAssets!.append(asset)
+                } else { // append currentDateAsssets to assetsByDate and update currentCreationDate and currentDateAssets
+                    if currentDateAssets != nil {
+                        self.assetsByDate.append(currentDateAssets!)
+                        self.creationDates.append(currentCreationDate)
+                    }
+                    
+                    currentCreationDate = assetCreationDate
+                    currentDateAssets = [asset]
+                }
+            }
+        }
+    }
+    
+    func fetchLivePhotos() {
+        loadFetchResult()
+        loadAssetsByDate()
     }
     
     

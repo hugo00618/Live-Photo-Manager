@@ -72,22 +72,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="osr-4Q-qDq">
-                            <size key="itemSize" width="104" height="104"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="M4w-Ac-Bf0" customClass="CSStickyHeaderFlowLayout">
+                            <size key="itemSize" width="106" height="106"/>
+                            <size key="headerReferenceSize" width="50" height="40"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="10"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="xrQ-fA-OgJ" customClass="PhotoThumbnailCell" customModule="Live_Photos" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="74" width="104" height="104"/>
+                                <rect key="frame" x="0.0" y="104" width="106" height="106"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2SK-pb-3fa">
-                                            <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -98,12 +98,57 @@
                                     <constraint firstItem="2SK-pb-3fa" firstAttribute="height" secondItem="xrQ-fA-OgJ" secondAttribute="height" id="Ecw-aI-nYj"/>
                                     <constraint firstItem="2SK-pb-3fa" firstAttribute="centerX" secondItem="xrQ-fA-OgJ" secondAttribute="centerX" id="b1M-CD-0nE"/>
                                 </constraints>
+                                <size key="customSize" width="106" height="106"/>
                                 <connections>
                                     <outlet property="img_thumbnail" destination="2SK-pb-3fa" id="WOQ-Xt-RTG"/>
                                     <segue destination="7wE-dk-D7I" kind="show" identifier="ShowPhotoDetails" id="0cJ-ss-WPL"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ShotDateHeader" id="Um1-nd-t7R" customClass="PhotoShotDateHeader" customModule="Live_Photos" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="64" width="600" height="40"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LFV-KU-kuD">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="5ER-xf-Ffd">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1S3-Jf-bc4">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="Sju-0g-oWL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </view>
+                                                <vibrancyEffect>
+                                                    <blurEffect style="light"/>
+                                                </vibrancyEffect>
+                                            </visualEffectView>
+                                        </subviews>
+                                    </view>
+                                    <blurEffect style="extraLight"/>
+                                </visualEffectView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rI7-IH-V7P">
+                                    <rect key="frame" x="8" y="11" width="584" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="rI7-IH-V7P" firstAttribute="leading" secondItem="Um1-nd-t7R" secondAttribute="leadingMargin" id="FnR-lf-0Z0"/>
+                                <constraint firstItem="LFV-KU-kuD" firstAttribute="centerY" secondItem="Um1-nd-t7R" secondAttribute="centerY" id="IvR-Od-HP5"/>
+                                <constraint firstItem="LFV-KU-kuD" firstAttribute="width" secondItem="Um1-nd-t7R" secondAttribute="width" id="c1j-aN-WCD"/>
+                                <constraint firstItem="rI7-IH-V7P" firstAttribute="centerY" secondItem="Um1-nd-t7R" secondAttribute="centerY" id="iKw-zh-BAF"/>
+                                <constraint firstItem="rI7-IH-V7P" firstAttribute="trailing" secondItem="Um1-nd-t7R" secondAttribute="trailingMargin" id="j7J-at-vOP"/>
+                                <constraint firstItem="LFV-KU-kuD" firstAttribute="centerX" secondItem="Um1-nd-t7R" secondAttribute="centerX" id="oAx-zS-BxR"/>
+                                <constraint firstItem="LFV-KU-kuD" firstAttribute="height" secondItem="Um1-nd-t7R" secondAttribute="height" id="zYn-5p-GjE"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="label_master" destination="rI7-IH-V7P" id="usb-Wi-74F"/>
+                            </connections>
+                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="sM7-87-hze" id="JV3-yf-F2z"/>
                             <outlet property="delegate" destination="sM7-87-hze" id="CjN-SF-JbV"/>
@@ -281,7 +326,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="wxQ-nJ-DW0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="n5w-sf-hWW">
                                 <rect key="frame" x="0.0" y="113.5" width="600" height="44"/>
@@ -333,7 +378,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touch ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbi-aG-aDJ">
                                             <rect key="frame" x="15" y="11" width="68" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mul-WU-RUu">
@@ -404,7 +449,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="AvB-P4-27n">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell_loadingIndicator" id="TgK-Yf-Xau">
                                 <rect key="frame" x="0.0" y="113.5" width="600" height="44"/>

@@ -38,13 +38,14 @@ class AccountSettingsDetailsVC: UITableViewController {
             return ""
         }
         
+        let stringFormat = "Automatically uploads Live Photos to your %@'s \"%@\" folder if enabled."
         switch (accountConfig!.serviceProviderName) {
         case "Dropbox":
-            return "Automatically uploads Live Photos to your Dropbox's \"Camera Uploads\" folder if enabled."
+            return String(format:stringFormat, "Dropbox", "Camera Uploads")
         case "Google Drive":
-            return "Automatically uploads Live Photos to your Google Drive's \"Google Photos\" folder if enabled."
+            return String(format:stringFormat, "Google Drive", "Google Photos")
         case "OneDrive":
-            return "Automatically uploads Live Photos to your OneDrive's \"Pictures\\Camera Roll\" folder if enabled."
+            return String(format:stringFormat, "OneDrive", "Pictures\\Camera Roll")
         default:
             return ""
         }
@@ -53,7 +54,7 @@ class AccountSettingsDetailsVC: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch (indexPath.section) {
         case 2: // sign out
-            let signOutConfirmationMessage: String? = accountConfig!.autoUpload ? ("This will turn off Auto Upload for " + accountConfig!.serviceProviderName) : nil
+            let signOutConfirmationMessage: String? = accountConfig!.autoUpload ? String(format: "This will turn off Auto Upload for %@", accountConfig!.serviceProviderName) : nil
             let signOutConfirmationTitle: String? = signOutConfirmationMessage == nil ? nil : ""
             
             let signOutConfirmationAlert = UIAlertController(title: signOutConfirmationTitle, message: signOutConfirmationMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)

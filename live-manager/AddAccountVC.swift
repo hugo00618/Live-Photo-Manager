@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import SwiftyDropbox
+import MBProgressHUD
 
 let IMAGE_NAME_DROPBOX_LOGO = "Image_Dropbox"
 let IMAGE_NAME_GDRIVE_LOGO = "Image_GDrive"
@@ -50,8 +51,9 @@ class AddAccountVC: UITableViewController {
                     }
                 }
             } else { // authorization failed
-                let alertView = UIAlertView(title: "Authorization Failed", message: nil, delegate: nil, cancelButtonTitle: "Dismiss")
-                alertView.show()
+                let failedToAddAlert = UIAlertController(title: "", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                self.presentViewController(failedToAddAlert, animated: true, completion: nil)
             }
             break
         case .GDrive:
@@ -64,7 +66,7 @@ class AddAccountVC: UITableViewController {
         
         addAccountDialog = AddAccountDialog.Default
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
     }
@@ -111,6 +113,7 @@ class AddAccountVC: UITableViewController {
     
     func showLoadingHUD() {
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.defaultMotionEffectsEnabled = !UIAccessibilityIsReduceMotionEnabled()
         let offSetY = self.navigationController!.navigationBar.frame.size.height / -2.0 * UIScreen.mainScreen().scale
         hud.offset = CGPoint(x: 0.0, y: offSetY)
     }

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Live Photos.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,7 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B5A1CE0DABEEE4F9F41B4C271EB52C67</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C82678D3F1477D7BDA374B203AF51547</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E8BF606E682277B3B54C54F05F5CA761</key>
 		<dict>
 			<key>primary</key>
 			<true/>
