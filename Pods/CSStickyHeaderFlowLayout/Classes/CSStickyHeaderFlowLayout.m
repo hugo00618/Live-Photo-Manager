@@ -29,26 +29,26 @@ static const NSInteger kHeaderZIndex = 1024;
 - (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingSupplementaryElementOfKind:(NSString *)elementKind
                                                                                         atIndexPath:(NSIndexPath *)elementIndexPath {
     UICollectionViewLayoutAttributes *attributes = [super initialLayoutAttributesForAppearingSupplementaryElementOfKind:elementKind atIndexPath:elementIndexPath];
-    
+
     if ([elementKind isEqualToString:CSStickyHeaderParallaxHeader]) {
         // sticky header do not need to offset
         return nil;
     } else {
         // offset others
-        
+
         CGRect frame = attributes.frame;
         frame.origin.y += self.parallaxHeaderReferenceSize.height;
         attributes.frame = frame;
     }
-    
+
     return attributes;
 }
 
 - (UICollectionViewLayoutAttributes *)finalLayoutAttributesForDisappearingSupplementaryElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)elementIndexPath {
-    
+
     if ([elementKind isEqualToString:CSStickyHeaderParallaxHeader]) {
         CSStickyHeaderFlowLayoutAttributes *attribute = (CSStickyHeaderFlowLayoutAttributes *)[self layoutAttributesForSupplementaryViewOfKind:elementKind atIndexPath:elementIndexPath];
-        
+
         [self updateParallaxHeaderAttribute:attribute];
         return attribute;
     } else {
@@ -68,6 +68,7 @@ static const NSInteger kHeaderZIndex = 1024;
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
+    
     if (self.collectionView.dataSource != nil) {
         // The rect should compensate the header size
         CGRect adjustedRect = rect;
@@ -197,9 +198,6 @@ static const NSInteger kHeaderZIndex = 1024;
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    if (self.collectionView.bounds.origin.y + 25 == newBounds.origin.y) {
-        return NO;
-    }
     return YES;
 }
 
@@ -222,22 +220,22 @@ static const NSInteger kHeaderZIndex = 1024;
     CGRect currentBounds = self.collectionView.bounds;
     attributes.zIndex = kHeaderZIndex;
     attributes.hidden = NO;
-    
+
     CGPoint origin = attributes.frame.origin;
-    
+
     CGFloat sectionMaxY = CGRectGetMaxY(lastCellAttributes.frame) - attributes.frame.size.height;
     CGFloat y = CGRectGetMaxY(currentBounds) - currentBounds.size.height + self.collectionView.contentInset.top;
-    
+
     if (self.parallaxHeaderAlwaysOnTop) {
         y += self.parallaxHeaderMinimumReferenceSize.height;
     }
-    
+
     CGFloat maxY = MIN(MAX(y, attributes.frame.origin.y), sectionMaxY);
-    
-    //    NSLog(@"%.2f, %.2f, %.2f", y, maxY, sectionMaxY);
-    
+
+//    NSLog(@"%.2f, %.2f, %.2f", y, maxY, sectionMaxY);
+
     origin.y = maxY;
-    
+
     attributes.frame = (CGRect){
         origin,
         attributes.frame.size
@@ -245,27 +243,27 @@ static const NSInteger kHeaderZIndex = 1024;
 }
 
 - (void)updateParallaxHeaderAttribute:(CSStickyHeaderFlowLayoutAttributes *)currentAttribute {
-    
+
     CGRect frame = currentAttribute.frame;
     frame.size.width = self.parallaxHeaderReferenceSize.width;
     frame.size.height = self.parallaxHeaderReferenceSize.height;
-    
+
     CGRect bounds = self.collectionView.bounds;
     CGFloat maxY = CGRectGetMaxY(frame);
-    
+
     // make sure the frame won't be negative values
     CGFloat y = MIN(maxY - self.parallaxHeaderMinimumReferenceSize.height, bounds.origin.y + self.collectionView.contentInset.top);
     CGFloat height = MAX(0, -y + maxY);
-    
-    
+
+
     CGFloat maxHeight = self.parallaxHeaderReferenceSize.height;
     CGFloat minHeight = self.parallaxHeaderMinimumReferenceSize.height;
     CGFloat progressiveness = (height - minHeight)/(maxHeight - minHeight);
     currentAttribute.progressiveness = progressiveness;
-    
+
     // if zIndex < 0 would prevents tap from recognized right under navigation bar
     currentAttribute.zIndex = 0;
-    
+
     // When parallaxHeaderAlwaysOnTop is enabled, we will check when we should update the y position
     if (self.parallaxHeaderAlwaysOnTop && height <= self.parallaxHeaderMinimumReferenceSize.height) {
         CGFloat insetTop = self.collectionView.contentInset.top;
@@ -273,7 +271,7 @@ static const NSInteger kHeaderZIndex = 1024;
         y = self.collectionView.contentOffset.y + insetTop;
         currentAttribute.zIndex = 2000;
     }
-    
+
     currentAttribute.frame = (CGRect){
         frame.origin.x,
         y,
@@ -291,9 +289,9 @@ static const NSInteger kHeaderZIndex = 1024;
 
 - (NSString *)description {
     NSString *indexPathString = [NSString stringWithFormat:@"{%ld, %ld}", (long)self.indexPath.section, (long)self.indexPath.item];
-    
+
     NSString *desc = [NSString stringWithFormat:@"<CSStickyHeaderFlowLayout: %p> indexPath: %@ zIndex: %ld valid: %@ kind: %@", self, indexPathString, (long)self.zIndex, [self isValid] ? @"YES" : @"NO", self.representedElementKind ?: @"cell"];
-    
+
     return desc;
 }
 
@@ -329,7 +327,7 @@ static const NSInteger kHeaderZIndex = 1024;
             *stop = YES;
         }
     }];
-    
+
     if (hasInvalid) {
         NSLog(@"CSStickyHeaderFlowLayout: %@", layoutAttributes);
     }

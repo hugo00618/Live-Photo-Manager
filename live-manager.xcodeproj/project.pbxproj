@@ -37,10 +37,8 @@
 		9A9B3A561D010EFE0090D33B /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B3A551D010EFE0090D33B /* ActionViewController.swift */; };
 		9A9B3A591D010EFE0090D33B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A9B3A571D010EFE0090D33B /* MainInterface.storyboard */; };
 		9A9B3A5D1D010EFE0090D33B /* live-manager-action-extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9A9B3A531D010EFE0090D33B /* live-manager-action-extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9AA610B81D1167720028B926 /* CSStickyHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610B31D1167720028B926 /* CSStickyHeaderFlowLayout.m */; };
-		9AA610B91D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610B51D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.m */; };
-		9AA610BA1D1167720028B926 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9AA610B61D1167720028B926 /* LICENSE */; };
-		9AA610BB1D1167720028B926 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610B71D1167720028B926 /* README.md */; };
+		9AA610DF1D119C260028B926 /* CSStickyHeaderFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA610D81D119C1C0028B926 /* CSStickyHeaderFlowLayout.framework */; };
+		9AA610E11D119C760028B926 /* MyStickyHeaderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610E01D119C760028B926 /* MyStickyHeaderFlowLayout.swift */; };
 		9AB8B3F11CBB571E0068052B /* live_managerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB8B3F01CBB571E0068052B /* live_managerTests.swift */; };
 		9AB8B3FC1CBB571E0068052B /* live_managerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB8B3FB1CBB571E0068052B /* live_managerUITests.swift */; };
 		9AB8B4101CBD3BA20068052B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB8B40F1CBD3BA20068052B /* Photos.framework */; };
@@ -153,7 +151,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A65940D1D090B1A00A0D54B /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = B5A1CE0DABEEE4F9F41B4C271EB52C67;
+			remoteGlobalIDString = 3EAF7C7CDE8BCA904D33814F7ED17D75;
 			remoteInfo = SwiftyDropbox;
 		};
 		9A6594241D090B5000A0D54B /* PBXContainerItemProxy */ = {
@@ -169,6 +167,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9A9B3A521D010EFE0090D33B;
 			remoteInfo = "live-manager-action-extension";
+		};
+		9AA610D31D119C1B0028B926 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A65940D1D090B1A00A0D54B /* Pods.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 30C445E6D8703D94CB06D42EB47820DE;
+			remoteInfo = CSStickyHeaderFlowLayout;
+		};
+		9AA610D71D119C1C0028B926 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A65940D1D090B1A00A0D54B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2AF280A55BFB06DAC821AB2C4AC6C344;
+			remoteInfo = CSStickyHeaderFlowLayout;
 		};
 		9AB8B3ED1CBB571E0068052B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -236,12 +248,7 @@
 		9A9B3A551D010EFE0090D33B /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
 		9A9B3A581D010EFE0090D33B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		9A9B3A5A1D010EFE0090D33B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9AA610B21D1167720028B926 /* CSStickyHeaderFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSStickyHeaderFlowLayout.h; sourceTree = "<group>"; };
-		9AA610B31D1167720028B926 /* CSStickyHeaderFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSStickyHeaderFlowLayout.m; sourceTree = "<group>"; };
-		9AA610B41D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSStickyHeaderFlowLayoutAttributes.h; sourceTree = "<group>"; };
-		9AA610B51D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSStickyHeaderFlowLayoutAttributes.m; sourceTree = "<group>"; };
-		9AA610B61D1167720028B926 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		9AA610B71D1167720028B926 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9AA610E01D119C760028B926 /* MyStickyHeaderFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyStickyHeaderFlowLayout.swift; sourceTree = "<group>"; };
 		9AB8B3D51CBB571D0068052B /* Live Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Live Photos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB8B3EC1CBB571E0068052B /* live-managerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "live-managerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB8B3F01CBB571E0068052B /* live_managerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = live_managerTests.swift; sourceTree = "<group>"; };
@@ -272,6 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA610DF1D119C260028B926 /* CSStickyHeaderFlowLayout.framework in Frameworks */,
 				9A5C0D6D1D10CE0B00FC3FB9 /* MBProgressHUD.framework in Frameworks */,
 				9A6594221D090B4900A0D54B /* Alamofire.framework in Frameworks */,
 				9A6594231D090B4900A0D54B /* SwiftyDropbox.framework in Frameworks */,
@@ -317,6 +325,7 @@
 				9A4A84631CBF284700497539 /* AppDelegate.swift */,
 				9A4A846F1CBF284700497539 /* PhotoThumbnailVC.swift */,
 				9A2F55F71D10DF4600299FFD /* PhotoShotDateHeader.swift */,
+				9AA610E01D119C760028B926 /* MyStickyHeaderFlowLayout.swift */,
 				9A4A846E1CBF284700497539 /* PhotoThumbnailCell.swift */,
 				9A4A846D1CBF284700497539 /* PhotoDetailsVC.swift */,
 				9A4A84621CBF284700497539 /* AddAccountVC.swift */,
@@ -354,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				9A6594151D090B1B00A0D54B /* Alamofire.framework */,
+				9AA610D81D119C1C0028B926 /* CSStickyHeaderFlowLayout.framework */,
 				9A5C0D5A1D10CDEB00FC3FB9 /* MBProgressHUD.framework */,
 				9A6594171D090B1B00A0D54B /* Pods_Live_Photos.framework */,
 				9A6594191D090B1B00A0D54B /* SwiftyDropbox.framework */,
@@ -372,27 +382,6 @@
 			path = "live-manager-action-extension";
 			sourceTree = "<group>";
 		};
-		9AA610B01D1167720028B926 /* CSStickyHeaderFlowLayout */ = {
-			isa = PBXGroup;
-			children = (
-				9AA610B11D1167720028B926 /* Classes */,
-				9AA610B61D1167720028B926 /* LICENSE */,
-				9AA610B71D1167720028B926 /* README.md */,
-			);
-			path = CSStickyHeaderFlowLayout;
-			sourceTree = "<group>";
-		};
-		9AA610B11D1167720028B926 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				9AA610B21D1167720028B926 /* CSStickyHeaderFlowLayout.h */,
-				9AA610B31D1167720028B926 /* CSStickyHeaderFlowLayout.m */,
-				9AA610B41D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.h */,
-				9AA610B51D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.m */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		9AB8B3CC1CBB571D0068052B = {
 			isa = PBXGroup;
 			children = (
@@ -406,7 +395,6 @@
 				9A9B3A541D010EFE0090D33B /* live-manager-action-extension */,
 				9AB8B3D61CBB571D0068052B /* Products */,
 				6D25A3424EE9AB1383FD47C4 /* Pods */,
-				9AA610B01D1167720028B926 /* CSStickyHeaderFlowLayout */,
 				C1C6D26F4B1491039ABBBCC5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -485,6 +473,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9AA610D41D119C1B0028B926 /* PBXTargetDependency */,
 				9A5C0D641D10CE0300FC3FB9 /* PBXTargetDependency */,
 				9A6594251D090B5000A0D54B /* PBXTargetDependency */,
 				9A6594211D090B3800A0D54B /* PBXTargetDependency */,
@@ -670,6 +659,13 @@
 			remoteRef = 9A6594181D090B1B00A0D54B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9AA610D81D119C1C0028B926 /* CSStickyHeaderFlowLayout.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CSStickyHeaderFlowLayout.framework;
+			remoteRef = 9AA610D71D119C1C0028B926 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -688,7 +684,6 @@
 			files = (
 				9A4A84751CBF284700497539 /* Main.storyboard in Resources */,
 				9A4A84731CBF284700497539 /* Assets.xcassets in Resources */,
-				9AA610BA1D1167720028B926 /* LICENSE in Resources */,
 				9A4A84741CBF284700497539 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -773,20 +768,18 @@
 			files = (
 				9A4A84791CBF284700497539 /* PhotoThumbnailCell.swift in Sources */,
 				9A6594271D092EFA00A0D54B /* CloudAccountVC.swift in Sources */,
-				9AA610B91D1167720028B926 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
 				9A2E41CE1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift in Sources */,
 				9AE1D5421D0A82D000F63790 /* CloudTableCell.swift in Sources */,
 				9A2F55F81D10DF4600299FFD /* PhotoShotDateHeader.swift in Sources */,
-				9AA610BB1D1167720028B926 /* README.md in Sources */,
 				9A4A84781CBF284700497539 /* PhotoDetailsVC.swift in Sources */,
 				9A2E41CA1D0BD3FC00AAF820 /* CloudAccountConfig.swift in Sources */,
-				9AA610B81D1167720028B926 /* CSStickyHeaderFlowLayout.m in Sources */,
 				9A4A847A1CBF284700497539 /* PhotoThumbnailVC.swift in Sources */,
 				9A4A84771CBF284700497539 /* live_manager.xcdatamodeld in Sources */,
 				9A4A84721CBF284700497539 /* AppDelegate.swift in Sources */,
 				9A4A84711CBF284700497539 /* AddAccountVC.swift in Sources */,
 				9A2E41CC1D0BDA3900AAF820 /* SettingsVC.swift in Sources */,
 				9ACC7B4A1D0CF99C004AD05C /* CloudAccountManager.swift in Sources */,
+				9AA610E11D119C760028B926 /* MyStickyHeaderFlowLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,6 +831,11 @@
 			isa = PBXTargetDependency;
 			target = 9A9B3A521D010EFE0090D33B /* live-manager-action-extension */;
 			targetProxy = 9A9B3A5B1D010EFE0090D33B /* PBXContainerItemProxy */;
+		};
+		9AA610D41D119C1B0028B926 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CSStickyHeaderFlowLayout;
+			targetProxy = 9AA610D31D119C1B0028B926 /* PBXContainerItemProxy */;
 		};
 		9AB8B3EE1CBB571E0068052B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

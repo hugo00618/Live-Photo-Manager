@@ -1,18 +1,21 @@
 PODS:
   - Alamofire (3.1.5)
+  - CSStickyHeaderFlowLayout (0.2.10)
   - MBProgressHUD (0.9.2)
   - SwiftyDropbox (3.0.0):
     - Alamofire (~> 3.1)
 
 DEPENDENCIES:
+  - CSStickyHeaderFlowLayout
   - MBProgressHUD
   - SwiftyDropbox
 
 SPEC CHECKSUMS:
   Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
+  CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   SwiftyDropbox: e0d4aa3166082ec07ed942e94edb8c732b3376e4
 
-PODFILE CHECKSUM: 872720e87f57b324700710ea59849a5ff9a5ff5a
+PODFILE CHECKSUM: f640481263cee01aa3efcb30e85082b0e7d578f0
 
 COCOAPODS: 1.0.1

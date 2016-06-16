@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CSStickyHeaderFlowLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,7 +32,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1771F4A82F3CE8581FF097183D3709D9</key>
+		<key>30C445E6D8703D94CB06D42EB47820DE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EAF7C7CDE8BCA904D33814F7ED17D75</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -37,22 +47,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B5A1CE0DABEEE4F9F41B4C271EB52C67</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C82678D3F1477D7BDA374B203AF51547</key>
+		<key>A874B0C65474828409EA79B81B3D2610</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E8BF606E682277B3B54C54F05F5CA761</key>
 		<dict>
 			<key>primary</key>
 			<true/>

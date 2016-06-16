@@ -11,6 +11,7 @@ import Photos
 
 let REUSE_ID_PHOTO_CELL = "PhotoCell"
 let REUSE_ID_SHOT_DATE_HEADER = "ShotDateHeader"
+let REUSE_ID_MY_FOOTER = "myFooter"
 
 let SEGUE_ID_SHOW_PHOTO_DETAILS = "ShowPhotoDetails"
 
@@ -42,6 +43,10 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
     }
     
     // MARK: UIViewController
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -117,6 +122,9 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
             if let myIndexPath = collection_photos.indexPathForCell(sender as! UICollectionViewCell) {
                 myPhotoDetailsVC.asset = assetsByDate[myIndexPath.section][myIndexPath.row]
             }
+            
+            //
+            (self.collectionViewLayout as! MyStickyHeaderFlowLayout).disableInvalidateCount = 5
         }
     }
     
