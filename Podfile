@@ -4,5 +4,4 @@ use_frameworks!
 target "Live Photos" do
 pod 'SwiftyDropbox'
 pod 'MBProgressHUD'
-pod "CSStickyHeaderFlowLayout"
 end

@@ -9,17 +9,17 @@
 import UIKit
 import Photos
 
-let REUSE_ID_PHOTO_CELL = "PhotoCell"
-let REUSE_ID_SHOT_DATE_HEADER = "ShotDateHeader"
-let REUSE_ID_MY_FOOTER = "myFooter"
-
-let SEGUE_ID_SHOW_PHOTO_DETAILS = "ShowPhotoDetails"
-
 class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver {
+    let REUSE_ID_PHOTO_CELL = "PhotoCell"
+    let REUSE_ID_SHOT_DATE_HEADER = "ShotDateHeader"
+    let REUSE_ID_MY_FOOTER = "myFooter"
+    
+    let SEGUE_ID_SHOW_PHOTO_DETAILS = "ShowPhotoDetails"
+    
     
     var myFetchResult: PHFetchResult!
     var assetsByDate = [[PHAsset]]()
-    var creationDates = [String]()
+    var formattedCreationDates = [String]()
     
     var imageManager: PHCachingImageManager!
     var previousPreheatRect: CGRect!
@@ -101,7 +101,7 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
         case UICollectionElementKindSectionHeader:
             let header = self.collectionView?.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: REUSE_ID_SHOT_DATE_HEADER, forIndexPath: indexPath) as! PhotoShotDateHeader
             
-            header.label_master.text = creationDates[indexPath.section]
+            header.label_master.text = formattedCreationDates[indexPath.section]
             
             return header
         default:
@@ -164,29 +164,30 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
     }
     
     func loadAssetsByDate() {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .MediumStyle
-        dateFormatter.timeStyle = .NoStyle
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        assetsByDate = [[PHAsset]]()
         
-        var currentCreationDate = ""
-        var currentDateAssets: [PHAsset]? = nil
+        var currentCreationDate = NSDate(timeIntervalSince1970: 0)
+        var currentDateAssets = [PHAsset]()
         myFetchResult.enumerateObjectsUsingBlock { (obj: AnyObject, idx: Int, stop: UnsafeMutablePointer<ObjCBool>) in
             if let asset = obj as? PHAsset {
-                let assetCreationDate = dateFormatter.stringFromDate(asset.creationDate!)
-                
-                if assetCreationDate == currentCreationDate { // asset's creation date matches currentCreationDate, continue to add to currentDateAssests
-                    currentDateAssets!.append(asset)
-                } else { // append currentDateAsssets to assetsByDate and update currentCreationDate and currentDateAssets
-                    if currentDateAssets != nil {
-                        self.assetsByDate.append(currentDateAssets!)
-                        self.creationDates.append(currentCreationDate)
+                if NSCalendar.currentCalendar().isDate(asset.creationDate!, inSameDayAsDate: currentCreationDate) { // creation dates match, continue to add to currentDateAssests
+                    currentDateAssets.append(asset)
+                } else { // creation dates don't match
+                    if currentDateAssets.count > 0 { // append currentDateAsssets to assetsByDate if not empty
+                        self.assetsByDate.append(currentDateAssets)
+                        self.formattedCreationDates.append(DateUtility.formattedHumanReadable(currentCreationDate))
                     }
                     
-                    currentCreationDate = assetCreationDate
+                    // declare new dateAssets
+                    currentCreationDate = asset.creationDate!
                     currentDateAssets = [asset]
                 }
             }
+        }
+        // append the currentDateAssets if not empty
+        if (currentDateAssets.count > 0) {
+            self.assetsByDate.append(currentDateAssets)
+            self.formattedCreationDates.append(DateUtility.formattedHumanReadable(currentCreationDate))
         }
     }
     

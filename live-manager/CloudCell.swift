@@ -1,5 +1,5 @@
 //
-//  CloudAccountTableCell.swift
+//  CloudCell.swift
 //  live-manager
 //
 //  Created by Hugo Yu on 2016-06-10.
@@ -22,4 +22,10 @@ class CloudServiceTableCell: UITableViewCell {
     @IBOutlet weak var image_logo: UIImageView!
     
     var serviceProvider: CloudServiceProvider?
+}
+
+class LivePhotoListCell: UITableViewCell {
+    @IBOutlet weak var collection_master: UICollectionView!
+    
+    
 }

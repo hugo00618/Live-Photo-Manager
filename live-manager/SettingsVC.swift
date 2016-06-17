@@ -9,9 +9,12 @@
 import UIKit
 import SwiftyDropbox
 
-let SEGUE_ID_SHOW_ACC_SETTINGS_DETAILS = "showAccSettingsDetails"
-
 class SettingsVC: UITableViewController {
+    let CELL_REUSE_ID_LOAD_INDIC = "tableCell_loadingIndicator"
+    let CELL_REUSE_ID_CLOUD_ACC = "tableCell_cloudAccount"
+    let CELL_REUSE_ID_ADD_ACC = "tableCell_addAccount"
+    
+    let SEGUE_ID_SHOW_ACC_SETTINGS_DETAILS = "showAccSettingsDetails"
     
     var decodedAccConfigs = [CloudAccountConfig]()
     
@@ -61,7 +64,8 @@ class SettingsVC: UITableViewController {
             if indexPath.row == decodedAccConfigs.count { // reaches the end of all user accounts, return "add account" cell
                 return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_ADD_ACC)!
             } else {
-                return CloudAccountManager.getCloudAccountCell(self.tableView, accConfig: decodedAccConfigs[indexPath.row])
+                let myCell = self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_ACC) as! CloudAccountTableCell
+                return CloudAccountManager.getCloudAccountCell(myCell, accConfig: decodedAccConfigs[indexPath.row])
             }
         }
     }
@@ -79,9 +83,6 @@ class SettingsVC: UITableViewController {
                 // set AccSettingsDetailsVC's accountConfig
                 accSettingsDetailsVC.accountConfig = self.decodedAccConfigs[selectedRow]
                 
-                break
-            case SEGUE_ID_ADD_ACC:
-                let addAccVC = (segue.destinationViewController as! UINavigationController).topViewController as! AddAccountVC
                 break
             default:
                 break

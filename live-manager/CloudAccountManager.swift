@@ -32,49 +32,46 @@ class CloudAccountManager {
         CloudAccountManager.reload()
     }
     
-    static func getCloudAccountCell(tableView: UITableView, accConfig: CloudAccountConfig) -> CloudAccountTableCell{
-        let cloudAccountCell = tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_ACC) as! CloudAccountTableCell
+    static func getCloudAccountCell(reusableCell: CloudAccountTableCell, accConfig: CloudAccountConfig) -> CloudAccountTableCell{
         let serviceProvider = CloudServiceProvider(rawValue: accConfig.serviceProviderName)!
         
         // set icon
         switch (serviceProvider) {
         case .Dropbox:
-            cloudAccountCell.image_icon.image = UIImage(named: IMAGE_NAME_DROPBOX_ICON)
+            reusableCell.image_icon.image = UIImage(named: IMAGE_NAME_DROPBOX_ICON)
             break
         case .GDrive:
-            cloudAccountCell.image_icon.image = UIImage(named: IMAGE_NAME_GDRIVE_ICON)
+            reusableCell.image_icon.image = UIImage(named: IMAGE_NAME_GDRIVE_ICON)
             break
         case .OneDrive:
-            cloudAccountCell.image_icon.image = UIImage(named: IMAGE_NAME_ONEDRIVE_ICON)
+            reusableCell.image_icon.image = UIImage(named: IMAGE_NAME_ONEDRIVE_ICON)
             break
         }
         
-        cloudAccountCell.label_userName.text = accConfig.userName
+        reusableCell.label_userName.text = accConfig.userName
         
-        cloudAccountCell.serviceProvider = serviceProvider
+        reusableCell.serviceProvider = serviceProvider
         
-        return cloudAccountCell
+        return reusableCell
     }
     
-    static func getCloudServiceCell(tableView: UITableView, serviceProvider: CloudServiceProvider) -> CloudServiceTableCell {
-        let cloudServiceCell = tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_SERVICE) as! CloudServiceTableCell
-        
+    static func getCloudServiceCell(reusableCell: CloudServiceTableCell, serviceProvider: CloudServiceProvider) -> CloudServiceTableCell {
         // set image
         switch (serviceProvider) {
         case .Dropbox:
-            cloudServiceCell.image_logo.image = UIImage(named: IMAGE_NAME_DROPBOX_LOGO)
+            reusableCell.image_logo.image = UIImage(named: IMAGE_NAME_DROPBOX_LOGO)
             break
         case .GDrive:
-            cloudServiceCell.image_logo.image = UIImage(named: IMAGE_NAME_GDRIVE_LOGO)
+            reusableCell.image_logo.image = UIImage(named: IMAGE_NAME_GDRIVE_LOGO)
             break
         case .OneDrive:
-            cloudServiceCell.image_logo.image = UIImage(named: IMAGE_NAME_ONEDRIVE_LOGO)
+            reusableCell.image_logo.image = UIImage(named: IMAGE_NAME_ONEDRIVE_LOGO)
             break
         }
         
-        cloudServiceCell.serviceProvider = serviceProvider
+        reusableCell.serviceProvider = serviceProvider
         
-        return cloudServiceCell
+        return reusableCell
     }
     
     private static func reload() {

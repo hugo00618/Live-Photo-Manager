@@ -15,8 +15,6 @@ let IMAGE_NAME_DROPBOX_LOGO = "Image_Dropbox"
 let IMAGE_NAME_GDRIVE_LOGO = "Image_GDrive"
 let IMAGE_NAME_ONEDRIVE_LOGO = "Image_OneDrive"
 
-let CELL_REUSE_ID_CLOUD_SERVICE = "tableCell_cloudServiceProvider"
-
 enum AddAccountDialog {
     case Default
     case Dropbox
@@ -25,6 +23,8 @@ enum AddAccountDialog {
 }
 
 class AddAccountVC: UITableViewController {
+    let CELL_REUSE_ID_CLOUD_SERVICE = "tableCell_cloudServiceProvider"
+    
     let availableCloudServices = CloudAccountManager.getAvailableCloudServices()
     
     // flag indicating which cloud service is adding
@@ -81,7 +81,9 @@ class AddAccountVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return CloudAccountManager.getCloudServiceCell(self.tableView, serviceProvider: availableCloudServices[indexPath.row])
+        // get reusable cell
+        let myCell = self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_CLOUD_SERVICE) as! CloudServiceTableCell
+        return CloudAccountManager.getCloudServiceCell(myCell, serviceProvider: availableCloudServices[indexPath.row])
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -113,8 +115,9 @@ class AddAccountVC: UITableViewController {
     
     func showLoadingHUD() {
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.defaultMotionEffectsEnabled = !UIAccessibilityIsReduceMotionEnabled()
-        let offSetY = self.navigationController!.navigationBar.frame.size.height / -2.0 * UIScreen.mainScreen().scale
-        hud.offset = CGPoint(x: 0.0, y: offSetY)
+        //hud.defaultMotionEffectsEnabled = !UIAccessibilityIsReduceMotionEnabled()        
+        let yOffset = self.navigationController!.navigationBar.frame.size.height / -2.0 * UIScreen.mainScreen().scale
+        //hud.yOffset = Float(yOffset)
+        //hud.offset = CGPoint(x: 0.0, y: yOffset)
     }
 }
