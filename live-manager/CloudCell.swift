@@ -26,6 +26,4 @@ class CloudServiceTableCell: UITableViewCell {
 
 class LivePhotoListCell: UITableViewCell {
     @IBOutlet weak var collection_master: UICollectionView!
-    
-    
 }

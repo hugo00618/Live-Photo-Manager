@@ -49,8 +49,8 @@ class CloudAccountManager {
         }
         
         reusableCell.label_userName.text = accConfig.userName
-        
         reusableCell.serviceProvider = serviceProvider
+        reusableCell.accountConfig = accConfig
         
         return reusableCell
     }

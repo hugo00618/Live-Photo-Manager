@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Photo Details-->
@@ -253,86 +254,6 @@
             </objects>
             <point key="canvasLocation" x="1398" y="812"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="MtS-2g-ofO">
-            <objects>
-                <tableViewController id="zPU-rJ-JDZ" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="oK9-fj-TzY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="livePhotoCollection" rowHeight="213" id="ywi-af-awq" customClass="LivePhotoListCell" customModule="Live_Photos" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="49.5" width="600" height="213"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ywi-af-awq" id="MT2-Al-Xn1">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="212.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2zd-It-kXk">
-                                            <rect key="frame" x="0.0" y="-1" width="600" height="213"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="5qM-UX-crE">
-                                                <size key="itemSize" width="106" height="106"/>
-                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            </collectionViewFlowLayout>
-                                            <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="5DP-CF-IPJ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </view>
-                                                </collectionViewCell>
-                                            </cells>
-                                        </collectionView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="2zd-It-kXk" firstAttribute="centerX" secondItem="MT2-Al-Xn1" secondAttribute="centerX" id="Sx0-Lr-DBv"/>
-                                        <constraint firstItem="2zd-It-kXk" firstAttribute="height" secondItem="MT2-Al-Xn1" secondAttribute="height" id="Xs7-MR-Pbh"/>
-                                        <constraint firstItem="2zd-It-kXk" firstAttribute="width" secondItem="MT2-Al-Xn1" secondAttribute="width" id="e4r-js-j88"/>
-                                        <constraint firstItem="2zd-It-kXk" firstAttribute="centerY" secondItem="MT2-Al-Xn1" secondAttribute="centerY" id="ldZ-Pt-txf"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="collection_master" destination="2zd-It-kXk" id="Zgw-lS-qbX"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="directory" textLabel="hpB-X3-npG" imageView="WF6-1h-G5F" style="IBUITableViewCellStyleDefault" id="6y8-4E-Rlr">
-                                <rect key="frame" x="0.0" y="262.5" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6y8-4E-Rlr" id="NYF-5U-2uY">
-                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Directory Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hpB-X3-npG">
-                                            <rect key="frame" x="58" y="0.0" width="507" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Image_Folder" id="WF6-1h-G5F">
-                                            <rect key="frame" x="15" y="7" width="28" height="28"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="zPU-rJ-JDZ" id="0yW-D5-QS8"/>
-                            <outlet property="delegate" destination="zPU-rJ-JDZ" id="wI9-6W-pMU"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ml3-Fs-vCY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2156" y="812"/>
-        </scene>
         <!--Cloud File ListVC-->
         <scene sceneID="fA6-qH-7lg">
             <objects>
@@ -347,7 +268,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Xck-Id-j1m">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="livePhotoCollection" rowHeight="213" id="zv7-h7-x9M" customClass="LivePhotoListCell" customModule="Live_Photos" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="113.5" width="600" height="213"/>
@@ -399,7 +320,7 @@
                                                     <rect key="frame" x="58" y="0.0" width="507" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Image_Folder" id="lrZ-Vf-a1E">
@@ -410,21 +331,29 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="zPU-rJ-JDZ" id="qZ3-4o-Tdv"/>
-                                    <outlet property="delegate" destination="zPU-rJ-JDZ" id="8nR-v1-E4Q"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="2s5-h1-0nt">
+                        <rightBarButtonItems>
+                            <barButtonItem image="BarIcon_Settings" id="7zd-Cl-QmM">
+                                <connections>
+                                    <segue destination="DdQ-Pq-AsV" kind="presentation" identifier="showAccSettingsDetails" id="NYG-V6-5O3"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="ToolIcon_Upload" id="IJT-5b-45m"/>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
+                        <outlet property="barButton_settings" destination="7zd-Cl-QmM" id="L00-sh-ARm"/>
+                        <outlet property="barButton_upload" destination="IJT-5b-45m" id="9gs-C3-cXB"/>
                         <outlet property="table_master" destination="Xck-Id-j1m" id="P3e-EC-9zQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGr-MJ-W6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2876" y="812"/>
+            <point key="canvasLocation" x="2156" y="812"/>
         </scene>
         <!--Add Account-->
         <scene sceneID="pWx-EE-sWc">
@@ -491,7 +420,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xR8-jX-rC8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2156" y="1598"/>
+            <point key="canvasLocation" x="1398" y="2386"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="jEj-oU-QBg">
@@ -576,7 +505,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2l9-Om-938" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2156" y="2394"/>
+            <point key="canvasLocation" x="2156" y="3158"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="AZI-Cv-E5J">
@@ -590,7 +519,6 @@
                     <connections>
                         <segue destination="Jgl-EQ-766" kind="relationship" relationship="viewControllers" id="xG8-f1-Ea0"/>
                         <segue destination="6AM-BI-bEf" kind="relationship" relationship="viewControllers" id="rqu-b3-XQ5"/>
-                        <segue destination="8hF-EB-8Lz" kind="relationship" relationship="viewControllers" id="eqZ-7E-SAK"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l6X-hr-0IC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -702,7 +630,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erS-zB-3EL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="586" y="1598"/>
+            <point key="canvasLocation" x="90" y="2474"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Qq8-JU-YdI">
@@ -745,7 +673,7 @@
                             <tableViewSection id="utP-Mj-jAE">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="iyg-OG-1xy" detailTextLabel="zFE-On-CzJ" style="IBUITableViewCellStyleValue1" id="TDW-cL-lZr">
-                                        <rect key="frame" x="0.0" y="187.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="188" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TDW-cL-lZr" id="T28-Xz-UgZ">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -776,7 +704,7 @@
                             <tableViewSection id="5dc-2k-7lP">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="o5F-jP-Wfs">
-                                        <rect key="frame" x="0.0" y="267.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="268" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o5F-jP-Wfs" id="tlF-FW-Geb">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -823,7 +751,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vdD-9I-PHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1398" y="2394"/>
+            <point key="canvasLocation" x="2156" y="2394"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rZk-c8-gKK">
@@ -841,7 +769,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DV0-pp-Jbc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1398" y="1598"/>
+            <point key="canvasLocation" x="1398" y="1582"/>
         </scene>
         <!--Photos-->
         <scene sceneID="Lpt-vV-gfk">
@@ -879,7 +807,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EZp-Ql-2dZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-236" y="1598"/>
+            <point key="canvasLocation" x="-628" y="2482"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y3D-4f-zvu">
@@ -897,7 +825,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v3F-eG-xSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="586" y="2394"/>
+            <point key="canvasLocation" x="2156" y="1582"/>
         </scene>
     </scenes>
     <resources>
@@ -913,6 +841,7 @@
         <image name="ToolIcon_Upload" width="29" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rOd-wu-o32"/>
+        <segue reference="NYG-V6-5O3"/>
+        <segue reference="asK-a3-dTC"/>
     </inferredMetricsTieBreakers>
 </document>

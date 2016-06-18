@@ -15,12 +15,12 @@ let IMAGE_NAME_DROPBOX_LOGO = "Image_Dropbox"
 let IMAGE_NAME_GDRIVE_LOGO = "Image_GDrive"
 let IMAGE_NAME_ONEDRIVE_LOGO = "Image_OneDrive"
 
-enum AddAccountDialog {
-    case Default
-    case Dropbox
-    case GDrive
-    case OneDrive
-}
+/*enum AddAccountDialog {
+ case Default
+ case Dropbox
+ case GDrive
+ case OneDrive
+ }*/
 
 class AddAccountVC: UITableViewController {
     let CELL_REUSE_ID_CLOUD_SERVICE = "tableCell_cloudServiceProvider"
@@ -28,7 +28,7 @@ class AddAccountVC: UITableViewController {
     let availableCloudServices = CloudAccountManager.getAvailableCloudServices()
     
     // flag indicating which cloud service is adding
-    var addAccountDialog = AddAccountDialog.Default
+    var addAccServiceProvider: CloudServiceProvider?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,33 +38,31 @@ class AddAccountVC: UITableViewController {
     
     func applicationIsActive(notification: NSNotification) {
         // check incoming scene
-        switch (addAccountDialog) {
-        case .Dropbox:
-            if let client = Dropbox.authorizedClient { // authorization succeeded
-                // Get the current user's account info
-                client.users.getCurrentAccount().response { response, error in
-                    if let account = response { // success
-                        CloudAccountManager.writeAccConfig(CloudAccountConfig(serviceProviderName: CloudServiceProvider.Dropbox.rawValue, userName: account.name.displayName))
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    } else {
-                        print(error!)
+        if let addAccServiceProvider = addAccServiceProvider {
+            switch (addAccServiceProvider) {
+            case .Dropbox:
+                if let client = Dropbox.authorizedClient { // authorization succeeded
+                    // Get the current user's account info
+                    client.users.getCurrentAccount().response { response, error in
+                        if let account = response { // success
+                            CloudAccountManager.writeAccConfig(CloudAccountConfig(serviceProviderName: CloudServiceProvider.Dropbox.rawValue, userName: account.name.displayName))
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        } else {
+                            print(error!)
+                        }
                     }
+                } else { // authorization failed
+                    showFailToLinkAlert(addAccServiceProvider)
                 }
-            } else { // authorization failed
-                let failedToAddAlert = UIAlertController(title: "", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-                
-                self.presentViewController(failedToAddAlert, animated: true, completion: nil)
+                break
+            case .GDrive:
+                break
+            case .OneDrive:
+                break
             }
-            break
-        case .GDrive:
-            break
-        case .OneDrive:
-            break
-        default:
-            break
+            
+            self.addAccServiceProvider = nil
         }
-        
-        addAccountDialog = AddAccountDialog.Default
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -92,17 +90,16 @@ class AddAccountVC: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as? CloudServiceTableCell {
+            addAccServiceProvider = selectedCell.serviceProvider!
+            showLoadingHUD()
+            
             switch (selectedCell.serviceProvider!) {
             case .Dropbox:
-                addAccountDialog = AddAccountDialog.Dropbox
-                showLoadingHUD()
                 Dropbox.authorizeFromController(self)
                 break
             case .GDrive:
-                addAccountDialog = AddAccountDialog.GDrive
                 break
             case .OneDrive:
-                addAccountDialog = AddAccountDialog.OneDrive
                 break
             }
         }
@@ -115,9 +112,21 @@ class AddAccountVC: UITableViewController {
     
     func showLoadingHUD() {
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        //hud.defaultMotionEffectsEnabled = !UIAccessibilityIsReduceMotionEnabled()        
+        //hud.defaultMotionEffectsEnabled = !UIAccessibilityIsReduceMotionEnabled()
         let yOffset = self.navigationController!.navigationBar.frame.size.height / -2.0 * UIScreen.mainScreen().scale
         //hud.yOffset = Float(yOffset)
         //hud.offset = CGPoint(x: 0.0, y: yOffset)
+    }
+    
+    func showFailToLinkAlert(serviceProvider: CloudServiceProvider) {
+        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        
+        // show alert
+        let failedToAddAlert = UIAlertController(title: String(format: "Failed to Link to %@", serviceProvider.rawValue), message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        failedToAddAlert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: { (alertAction) in
+            self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
+        }))
+        
+        self.presentViewController(failedToAddAlert, animated: true, completion: nil)
     }
 }

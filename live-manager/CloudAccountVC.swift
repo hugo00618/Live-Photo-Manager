@@ -90,7 +90,7 @@ class CloudAccountVC: UITableViewController {
         switch segue.identifier! {
         case SEGUE_ID_SHOW_ACC_FILE_LIST:
             if let destinationVC = segue.destinationViewController as? CloudFileListVC {
-                destinationVC.accServiceProvider = (sender as! CloudAccountTableCell).serviceProvider
+                destinationVC.accConfig = (sender as! CloudAccountTableCell).accountConfig
             }
             break
         default:

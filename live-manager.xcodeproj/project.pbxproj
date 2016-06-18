@@ -350,10 +350,7 @@
 				9AA4ACC91D12D27000D18772 /* CloudDataManager.swift */,
 				9AA4ACD71D13F21C00D18772 /* DateUtility.swift */,
 				9A4A84671CBF284700497539 /* Main.storyboard */,
-				9A46C4E31D14B6C300E30908 /* LoadingPrompt.swift */,
-				9A46C4E51D14B6F100E30908 /* LoadingPrompt.xib */,
-				9AB6B9871D14E2DC00C3CCF3 /* FullScreenImagePrompt.swift */,
-				9AB6B9881D14E2DC00C3CCF3 /* FullScreenImagePrompt.xib */,
+				9AB6B9921D14E88200C3CCF3 /* nib */,
 				9A4A84641CBF284700497539 /* Assets.xcassets */,
 				9A4A84651CBF284700497539 /* LaunchScreen.storyboard */,
 				9A4A84691CBF284700497539 /* Info.plist */,
@@ -419,6 +416,17 @@
 				9AA611151D1261160028B926 /* CSStickyHeaderFlowLayoutAttributes.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		9AB6B9921D14E88200C3CCF3 /* nib */ = {
+			isa = PBXGroup;
+			children = (
+				9A46C4E31D14B6C300E30908 /* LoadingPrompt.swift */,
+				9A46C4E51D14B6F100E30908 /* LoadingPrompt.xib */,
+				9AB6B9871D14E2DC00C3CCF3 /* FullScreenImagePrompt.swift */,
+				9AB6B9881D14E2DC00C3CCF3 /* FullScreenImagePrompt.xib */,
+			);
+			name = nib;
 			sourceTree = "<group>";
 		};
 		9AB8B3CC1CBB571D0068052B = {

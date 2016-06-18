@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol AccountSettingsDetailsProtocol {
+    func unlinkAccount()
+}
+
 class AccountSettingsDetailsVC: UITableViewController {
     
     @IBOutlet weak var switch_autoUpload: UISwitch!
@@ -15,6 +19,7 @@ class AccountSettingsDetailsVC: UITableViewController {
     @IBOutlet weak var tableCell_signOut: UITableViewCell!
     
     var accountConfig: CloudAccountConfig?
+    var myProtocol: AccountSettingsDetailsProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +67,7 @@ class AccountSettingsDetailsVC: UITableViewController {
             let signoutAction = UIAlertAction(title: "Unlink", style: UIAlertActionStyle.Destructive, handler: {(action: UIAlertAction) in
                 // unlink account
                 CloudAccountManager.unlinkAccount(self.accountConfig!.serviceProviderName)
+                self.myProtocol?.unlinkAccount()
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
                 })
