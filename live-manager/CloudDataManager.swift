@@ -49,7 +49,7 @@ class CloudDataManager {
                         
                         // sort dirs by folder name in ascending order
                         dirs.sortInPlace({ (metaData1, metaData2) -> Bool in
-                            return metaData1.name < metaData2.name
+                            return metaData1.name.caseInsensitiveCompare(metaData2.name) == NSComparisonResult.OrderedAscending
                         })
                         
                         completion(livePhotos: livePhotos, dirs: dirs)

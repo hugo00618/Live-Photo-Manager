@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoadingPrompt" customModule="Live_Photos" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="wE9-XV-uxE"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="87.5" height="20"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Jqe-Rf-wN0">
+                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdw-CA-Owl">
+                    <rect key="frame" x="24" y="1.5" width="63.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Jqe-Rf-wN0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="0Dy-uO-m9J"/>
+                <constraint firstItem="tdw-CA-Owl" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="8sr-Iu-XID"/>
+                <constraint firstItem="tdw-CA-Owl" firstAttribute="leading" secondItem="Jqe-Rf-wN0" secondAttribute="trailing" constant="4" id="ASd-Xs-5vZ"/>
+                <constraint firstItem="Jqe-Rf-wN0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BPs-48-Z04"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-29.25" y="127"/>
+        </view>
+    </objects>
+</document>
