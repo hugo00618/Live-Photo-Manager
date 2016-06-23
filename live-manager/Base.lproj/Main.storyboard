@@ -87,7 +87,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2SK-pb-3fa">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2SK-pb-3fa">
                                             <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                         </imageView>
                                     </subviews>
@@ -266,7 +266,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Xck-Id-j1m">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Xck-Id-j1m">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -277,8 +277,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="212.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GQv-ii-mKa">
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GQv-ii-mKa" customClass="CloudLivePhotoCollection" customModule="Live_Photos" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="-1" width="600" height="213"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="ZZa-vQ-tUx">
                                                         <size key="itemSize" width="106" height="106"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -286,14 +287,29 @@
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="HFm-Ug-7nX">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cloudLivePhotoThumbCell" id="HFm-Ug-7nX" customClass="CloudLivePhotoCollectionCell" customModule="Live_Photos" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lZW-Fu-8XB">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </imageView>
+                                                                </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
+                                                            <constraints>
+                                                                <constraint firstItem="lZW-Fu-8XB" firstAttribute="centerX" secondItem="HFm-Ug-7nX" secondAttribute="centerX" id="1Wh-K7-FlW"/>
+                                                                <constraint firstItem="lZW-Fu-8XB" firstAttribute="height" secondItem="HFm-Ug-7nX" secondAttribute="height" id="hQg-C6-I9A"/>
+                                                                <constraint firstItem="lZW-Fu-8XB" firstAttribute="width" secondItem="HFm-Ug-7nX" secondAttribute="width" id="lJU-33-nIy"/>
+                                                                <constraint firstItem="lZW-Fu-8XB" firstAttribute="centerY" secondItem="HFm-Ug-7nX" secondAttribute="centerY" id="oph-yc-VqD"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="image_thumbnail" destination="lZW-Fu-8XB" id="JvH-7Y-1Q4"/>
+                                                            </connections>
                                                         </collectionViewCell>
                                                     </cells>
                                                 </collectionView>
@@ -309,8 +325,28 @@
                                             <outlet property="collection_master" destination="GQv-ii-mKa" id="XIU-VR-ltG"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="directory" textLabel="x4Q-94-mLX" imageView="lrZ-Vf-a1E" style="IBUITableViewCellStyleDefault" id="eFQ-W3-aqd">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewMore" id="jPW-uj-YyQ" customClass="ViewMoreTableCell" customModule="Live_Photos" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="326.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jPW-uj-YyQ" id="Muz-kR-7o6">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View More" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt0-r5-96G">
+                                                    <rect key="frame" x="259.5" y="11.5" width="81" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mt0-r5-96G" firstAttribute="centerX" secondItem="Muz-kR-7o6" secondAttribute="centerX" id="193-ew-zOT"/>
+                                                <constraint firstItem="mt0-r5-96G" firstAttribute="centerY" secondItem="Muz-kR-7o6" secondAttribute="centerY" id="84b-U8-9pd"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="directory" textLabel="x4Q-94-mLX" imageView="lrZ-Vf-a1E" style="IBUITableViewCellStyleDefault" id="eFQ-W3-aqd" customClass="CloudFolderTableCell" customModule="Live_Photos" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="370.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eFQ-W3-aqd" id="sqF-ej-2Ov">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -334,6 +370,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Xck-Id-j1m" firstAttribute="height" secondItem="Xb3-3f-gk1" secondAttribute="height" id="IoT-2V-Qjs"/>
+                            <constraint firstItem="Xck-Id-j1m" firstAttribute="width" secondItem="Xb3-3f-gk1" secondAttribute="width" id="Ww6-vO-lEg"/>
+                            <constraint firstItem="Xck-Id-j1m" firstAttribute="centerY" secondItem="Xb3-3f-gk1" secondAttribute="centerY" id="eN0-uQ-tIN"/>
+                            <constraint firstItem="Xck-Id-j1m" firstAttribute="centerX" secondItem="Xb3-3f-gk1" secondAttribute="centerX" id="iuh-Xc-Lzm"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2s5-h1-0nt">
                         <rightBarButtonItems>
@@ -673,7 +715,7 @@
                             <tableViewSection id="utP-Mj-jAE">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="iyg-OG-1xy" detailTextLabel="zFE-On-CzJ" style="IBUITableViewCellStyleValue1" id="TDW-cL-lZr">
-                                        <rect key="frame" x="0.0" y="188" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="187.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TDW-cL-lZr" id="T28-Xz-UgZ">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -704,7 +746,7 @@
                             <tableViewSection id="5dc-2k-7lP">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="o5F-jP-Wfs">
-                                        <rect key="frame" x="0.0" y="268" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="267.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o5F-jP-Wfs" id="tlF-FW-Geb">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -842,6 +884,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NYG-V6-5O3"/>
-        <segue reference="asK-a3-dTC"/>
+        <segue reference="rOd-wu-o32"/>
     </inferredMetricsTieBreakers>
 </document>

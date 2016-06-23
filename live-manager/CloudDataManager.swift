@@ -13,8 +13,8 @@ import PhotosUI
 
 class CloudDataManager {
     
-    static func getFileList(serviceProvider: CloudServiceProvider, path: String, completion: (livePhotos: [PHLivePhoto], dirs: [Files.Metadata]) -> Void) {
-        var livePhotos: [PHLivePhoto] = []
+    static func getFileList(serviceProvider: CloudServiceProvider, path: String, completion: (cloudLivePhotos: [CloudLivePhoto], dirs: [Files.Metadata]) -> Void) {
+        var cloudLivePhotos: [CloudLivePhoto] = []
         var dirs: [Files.FolderMetadata] = []
         
         switch serviceProvider {
@@ -23,9 +23,15 @@ class CloudDataManager {
                 client.files.listFolder(path: path).response { response, error in
                     if let result = response {
                         var livePhotoJpegEntry: Files.Metadata? = nil
-                        for entry in result.entries {
+                        
+                        // sort entires based on their names
+                        var entries = result.entries
+                        entries.sortInPlace({ (metaData1, metaData2) -> Bool in
+                            return metaData1.name.caseInsensitiveCompare(metaData2.name) == NSComparisonResult.OrderedAscending
+                        })
+                        
+                        for entry in entries {
                             let entryName = entry.name
-                            
                             if let folderEntry = entry as? Files.FolderMetadata { // folder
                                 dirs.append(folderEntry)
                             } else { // file
@@ -36,7 +42,10 @@ class CloudDataManager {
                                 } else if (LivePhotoFileUtility.entryIsMOV(entryName) && livePhotoJpegEntry != nil) { // mov
                                     // check if mov matches jpeg name
                                     if (LivePhotoFileUtility.removeExtension(livePhotoJpegEntry!.name) == LivePhotoFileUtility.removeExtension(entryName)) { // names match
+                                        let thumbnailURL = NSURL(fileURLWithPath: (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent(livePhotoJpegEntry!.name))
                                         
+                                        cloudLivePhotos.append(CloudLivePhoto(thumbnailURL: thumbnailURL, photoFileMetaData:
+                                            livePhotoJpegEntry!, videoFileMetaData: entry))
                                     } else { // no need to find current jpeg's video any more since they should be together if they have the same name
                                         livePhotoJpegEntry = nil
                                     }
@@ -52,7 +61,7 @@ class CloudDataManager {
                             return metaData1.name.caseInsensitiveCompare(metaData2.name) == NSComparisonResult.OrderedAscending
                         })
                         
-                        completion(livePhotos: livePhotos, dirs: dirs)
+                        completion(cloudLivePhotos: cloudLivePhotos, dirs: dirs)
                     } else {
                         print(error!)
                     }
@@ -63,6 +72,19 @@ class CloudDataManager {
             break
         case .OneDrive:
             break
+        }
+    }
+    
+    static func getCloudLivePhotoThumbnail(metaData: Files.Metadata, thumbnailURL: NSURL, completion: () -> Void) {
+        if let client = Dropbox.authorizedClient {
+            let destination : (NSURL, NSHTTPURLResponse) -> NSURL = { temporaryURL, response in
+                return thumbnailURL
+            }
+            
+            client.files.getThumbnail(path: metaData.pathLower, format: Files.ThumbnailFormat.Jpeg, size: Files.ThumbnailSize.W640h480, destination: destination).response {
+                response, error in
+                completion()
+            }
         }
     }
 }

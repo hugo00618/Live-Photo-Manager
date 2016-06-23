@@ -13,6 +13,7 @@ import PhotosUI
 
 class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, AccountSettingsDetailsProtocol {
     let CELL_REUSE_ID_LIVE_PHOTO_COLLEC = "livePhotoCollection"
+    let CELL_REUSE_ID_VIEW_MORE = "viewMore"
     let CELL_REUSE_ID_DIR = "directory"
     
     let SEGUE_ID_SHOW_ACC_SET_DETAIL = "showAccSettingsDetails"
@@ -29,6 +30,7 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var data = [[AnyObject]]()
     
     var initialized = false
+    var thumbnailViewCollapsed = true
     
     // MARK: UIViewController
     override func viewDidLoad() {
@@ -59,9 +61,9 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         // fetch file list and reload table view
         let myPath = folderMetaData == nil ? "" : folderMetaData!.pathLower
-        CloudDataManager.getFileList(CloudServiceProvider(rawValue: accConfig!.serviceProviderName)!, path: myPath) { (livePhotos, directories) in
-            if livePhotos.count != 0 {
-                self.data.append(livePhotos)
+        CloudDataManager.getFileList(CloudServiceProvider(rawValue: accConfig!.serviceProviderName)!, path: myPath) { (cloudLivePhotos, directories) in
+            if cloudLivePhotos.count != 0 {
+                self.data.append(cloudLivePhotos)
             }
             if directories.count != 0 {
                 self.data.append(directories
@@ -73,8 +75,8 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             if self.data.count == 0 { // folder rmpty, display prompt
                 let folderEmptyPrompt = FullScreenImagePrompt()
-                folderEmptyPrompt.label_title.text = "Folder is Empty"
-                folderEmptyPrompt.label_content.text = "No Live Photos or subfolders in this directory."
+                folderEmptyPrompt.label_title.text = "No Live Photos"
+                folderEmptyPrompt.label_content.text = "No Live Photos or sub-directories found in this folder."
                 
                 self.view.addSubview(folderEmptyPrompt)
                 folderEmptyPrompt.bounds = self.view.bounds
@@ -99,13 +101,12 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         if !initialized {
             return 0
         }
-        
         return data.count
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let samplingData = data[section][0] // get the first element of data[section] as sample
-        if samplingData as? PHLivePhoto != nil { // data[section] is [PHLivePhoto]
+        if samplingData as? CloudLivePhoto != nil { // data[section] is [CloudLivePhoto]
             return "LIVE PHOTOS"
         } else if samplingData as? Files.FolderMetadata != nil { // [Files.FolderMetadata]
             return "FOLDERS"
@@ -118,13 +119,38 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             return 0
         }
         
-        return data[section].count
+        let samplingData = data[section][0] // get the first element of data[section] as sample
+        if samplingData as? CloudLivePhoto != nil { // data[section] is [CloudLivePhoto]
+            if data[section].count > 6 { // more than 6 live photos, need "expand" button
+                return 2
+            }
+            return 1
+        } else if samplingData as? Files.FolderMetadata != nil { // [Files.FolderMetadata]
+            return data[section].count
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let samplingData = data[indexPath.section][0] // get the first element of data[section] as sample
-        if samplingData as? PHLivePhoto != nil { // data[section] is [PHLivePhoto]
-            return 0
+        if samplingData as? CloudLivePhoto != nil { // data[section] is [CloudLivePhoto]
+            switch indexPath.row {
+            case 0: // live photo thumbnails
+                if thumbnailViewCollapsed { // collapsed view, return 1 or 2 row's height
+                    if data[indexPath.section].count <= 3 {
+                        return 106
+                    } else {
+                        return 213
+                    }
+                } else { // expanded view, return actual height
+                    let numOfRows = ceil(CGFloat(data[indexPath.section].count) / 3.0)
+                    return numOfRows * 107 - 1
+                }
+            case 1: // "view more" button
+                return 44
+            default:
+                return 0
+            }
         } else if samplingData as? Files.FolderMetadata != nil { // [Files.FolderMetadata]
             return 50
         }
@@ -133,8 +159,20 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let myData = data[indexPath.section][indexPath.row]
-        if let myData = myData as? PHLivePhoto {
-            return UITableViewCell()
+        if myData as? CloudLivePhoto != nil {
+            if indexPath.row == 0 { // photo thumbnails
+                let livePhotoListCell = self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LIVE_PHOTO_COLLEC) as! LivePhotoListCell
+                
+                livePhotoListCell.collection_master.cloudLivePhotos = data[indexPath.section] as! [CloudLivePhoto]
+                
+                
+                livePhotoListCell.collection_master.delegate = livePhotoListCell.collection_master
+                livePhotoListCell.collection_master.dataSource = livePhotoListCell.collection_master
+                
+                return livePhotoListCell
+            }
+            // view more button
+            return self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_VIEW_MORE)!
         } else if let myData = myData as? Files.FolderMetadata {
             let myCell = self.table_master.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_DIR)!
             
@@ -161,14 +199,18 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let senderData = data[indexPath.section][indexPath.row]
-        if let senderData = senderData as? PHLivePhoto { // Live Photo
+        // determine section
+        let sender = tableView.cellForRowAtIndexPath(indexPath)
+        if let sender = sender as? LivePhotoListCell { // Live Photo thumbnail collection
             
-        } else if let senderData = senderData as? Files.FolderMetadata { // Files.FolderMetadta
+        } else if sender as? ViewMoreTableCell != nil { // "view more" button
+            thumbnailViewCollapsed = false
+            self.table_master.reloadSections(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowAnimation: UITableViewRowAnimation.Automatic)
+        } else if sender as? CloudFolderTableCell != nil { // folder section
             let subFolderFileListVC = self.storyboard?.instantiateViewControllerWithIdentifier(STORYBOARD_ID_CLOUD_FILE_LIST) as! CloudFileListVC
             
             subFolderFileListVC.accConfig = accConfig
-            subFolderFileListVC.folderMetaData = senderData
+            subFolderFileListVC.folderMetaData = data[indexPath.section][indexPath.row] as! Files.FolderMetadata
             
             self.navigationController?.pushViewController(subFolderFileListVC, animated: true)
         }
@@ -189,7 +231,6 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
         }
     }
-    
     
     
     // MARK: AccountSettingsDetailsProtocol

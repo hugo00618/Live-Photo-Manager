@@ -81,15 +81,8 @@ class PhotoThumbnailVC: UICollectionViewController, PHPhotoLibraryChangeObserver
         // load reused cell
         let myCell = collection_photos.dequeueReusableCellWithReuseIdentifier(REUSE_ID_PHOTO_CELL, forIndexPath: indexPath) as! PhotoThumbnailCell
         
-        // prepare request image options to get cropped image
-        let requestImageOptions = PHImageRequestOptions()
-        requestImageOptions.resizeMode = PHImageRequestOptionsResizeMode.Exact
-        let cropSideLength = CGFloat(min(myAsset.pixelWidth, myAsset.pixelHeight))
-        let cropRect = CGRectApplyAffineTransform(CGRectMake(0, 0, cropSideLength, cropSideLength), CGAffineTransformMakeScale(1.0 / CGFloat(myAsset.pixelWidth), 1.0 / CGFloat(myAsset.pixelHeight)))
-        requestImageOptions.normalizedCropRect = cropRect
-        
         // set thumbnail image of cell
-        self.imageManager.requestImageForAsset(myAsset, targetSize: assetGridThumbnailSize, contentMode: PHImageContentMode.AspectFit, options: requestImageOptions, resultHandler: {(result: UIImage?, info: [NSObject : AnyObject]?) in
+        self.imageManager.requestImageForAsset(myAsset, targetSize: assetGridThumbnailSize, contentMode: PHImageContentMode.AspectFit, options: PHImageRequestOptions(), resultHandler: {(result: UIImage?, info: [NSObject : AnyObject]?) in
             myCell.img_thumbnail.image = result
         })
         
