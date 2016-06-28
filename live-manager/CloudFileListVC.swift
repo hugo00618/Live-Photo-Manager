@@ -13,7 +13,7 @@ import PhotosUI
 
 class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, AccountSettingsDetailsProtocol {
     let CELL_REUSE_ID_LIVE_PHOTO_COLLEC = "livePhotoCollection"
-    let CELL_REUSE_ID_VIEW_MORE = "viewMore"
+    let CELL_REUSE_ID_VIEW_ALL = "viewAll"
     let CELL_REUSE_ID_DIR = "directory"
     
     let SEGUE_ID_SHOW_ACC_SET_DETAIL = "showAccSettingsDetails"
@@ -22,7 +22,7 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBOutlet weak var table_master: UITableView!
     @IBOutlet weak var barButton_settings: UIBarButtonItem!
-    @IBOutlet weak var barButton_upload: UIBarButtonItem!
+    @IBOutlet weak var barButton_select: UIBarButtonItem!
     
     var accConfig: CloudAccountConfig?
     var folderMetaData: Files.FolderMetadata?
@@ -45,7 +45,7 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             self.navigationItem.title = folderMetaData.name
             
             // only show upload bar button on the right
-            self.navigationItem.rightBarButtonItems = [barButton_upload]
+            self.navigationItem.rightBarButtonItems = [barButton_select]
         } else { // root folder
             // set navigation bar titile to service provider name
             self.navigationItem.title = accConfig?.serviceProviderName
@@ -146,8 +146,11 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     let numOfRows = ceil(CGFloat(data[indexPath.section].count) / 3.0)
                     return numOfRows * 107 - 1
                 }
-            case 1: // "view more" button
-                return 44
+            case 1: // "view all" button
+                if thumbnailViewCollapsed {
+                    return 44
+                }
+                return 0
             default:
                 return 0
             }
@@ -171,8 +174,8 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 
                 return livePhotoListCell
             }
-            // view more button
-            return self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_VIEW_MORE)!
+            // view all button
+            return self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_VIEW_ALL)!
         } else if let myData = myData as? Files.FolderMetadata {
             let myCell = self.table_master.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_DIR)!
             
@@ -203,9 +206,11 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let sender = tableView.cellForRowAtIndexPath(indexPath)
         if let sender = sender as? LivePhotoListCell { // Live Photo thumbnail collection
             
-        } else if sender as? ViewMoreTableCell != nil { // "view more" button
+        } else if sender as? ViewMoreTableCell != nil { // "view all" button
             thumbnailViewCollapsed = false
-            self.table_master.reloadSections(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowAnimation: UITableViewRowAnimation.Automatic)
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            //self.table_master.reloadSections(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowAnimation: UITableViewRowAnimation.Automatic)
         } else if sender as? CloudFolderTableCell != nil { // folder section
             let subFolderFileListVC = self.storyboard?.instantiateViewControllerWithIdentifier(STORYBOARD_ID_CLOUD_FILE_LIST) as! CloudFileListVC
             

@@ -9,8 +9,15 @@
 import Foundation
 
 class LivePhotoFileUtility {
+    private static let MAX_ZIP_SIZE: Int64 = 10000000 // 10 MB
+    
     // unzipLivePhoto() consumes the URL of the zip file and returns an array of NSURL's where the first URL is still photo and the second URL is video, or returns nil if fails
     static func unzipLivePhoto(zipURL: NSURL) -> [NSURL]? {
+        let zipSize = try! NSFileManager.defaultManager().attributesOfItemAtPath(zipURL.path!)[NSFileSize]!.longLongValue
+        if zipSize > MAX_ZIP_SIZE { // file too big
+            return nil
+        }
+        
         var myArchive: ZZArchive
         do {
             myArchive = try ZZArchive(URL: zipURL, options: [ZZOpenOptionsCreateIfMissingKey: true])

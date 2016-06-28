@@ -70,6 +70,17 @@ class CloudAccountVC: UITableViewController {
         }
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if CloudAccountManager.reloading {
+            return 44
+        } else {
+            if indexPath.row == decodedAccConfigs.count { // "add account" button
+                return 44
+            }
+            return 50
+        }
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if CloudAccountManager.reloading { // reloading, display the loading indicator cell
             return self.tableView.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LOAD_INDIC)!

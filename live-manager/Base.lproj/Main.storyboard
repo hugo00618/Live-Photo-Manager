@@ -190,22 +190,22 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tableCell_cloudAccount" textLabel="R7Q-MR-5em" imageView="hYO-RU-VfQ" style="IBUITableViewCellStyleDefault" id="JMc-jx-GGz" customClass="CloudAccountTableCell" customModule="Live_Photos" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="157.5" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tableCell_cloudAccount" textLabel="R7Q-MR-5em" imageView="hYO-RU-VfQ" rowHeight="50" style="IBUITableViewCellStyleDefault" id="JMc-jx-GGz" customClass="CloudAccountTableCell" customModule="Live_Photos" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="157.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JMc-jx-GGz" id="ITa-ES-pxw">
-                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Dropbox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R7Q-MR-5em">
-                                            <rect key="frame" x="58" y="0.0" width="507" height="43.5"/>
+                                            <rect key="frame" x="58" y="0.0" width="507" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Image_Dropbox_square" id="hYO-RU-VfQ">
-                                            <rect key="frame" x="15" y="7" width="28" height="28"/>
+                                            <rect key="frame" x="15" y="10" width="28" height="28"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -217,7 +217,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell_addAccount" id="FFQ-Vp-nNj">
-                                <rect key="frame" x="0.0" y="201.5" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="207.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FFQ-Vp-nNj" id="kND-Zx-r2c">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -309,6 +309,7 @@
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="image_thumbnail" destination="lZW-Fu-8XB" id="JvH-7Y-1Q4"/>
+                                                                <segue destination="met-le-JSM" kind="show" id="gJ2-7W-8Ee"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -325,15 +326,15 @@
                                             <outlet property="collection_master" destination="GQv-ii-mKa" id="XIU-VR-ltG"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewMore" id="jPW-uj-YyQ" customClass="ViewMoreTableCell" customModule="Live_Photos" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewAll" id="jPW-uj-YyQ" customClass="ViewMoreTableCell" customModule="Live_Photos" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="326.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jPW-uj-YyQ" id="Muz-kR-7o6">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View More" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt0-r5-96G">
-                                                    <rect key="frame" x="259.5" y="11.5" width="81" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View All" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt0-r5-96G">
+                                                    <rect key="frame" x="270" y="11.5" width="60.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -345,22 +346,22 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="directory" textLabel="x4Q-94-mLX" imageView="lrZ-Vf-a1E" style="IBUITableViewCellStyleDefault" id="eFQ-W3-aqd" customClass="CloudFolderTableCell" customModule="Live_Photos" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="370.5" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="directory" textLabel="x4Q-94-mLX" imageView="lrZ-Vf-a1E" rowHeight="50" style="IBUITableViewCellStyleDefault" id="eFQ-W3-aqd" customClass="CloudFolderTableCell" customModule="Live_Photos" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="370.5" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eFQ-W3-aqd" id="sqF-ej-2Ov">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Directory Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x4Q-94-mLX">
-                                                    <rect key="frame" x="58" y="0.0" width="507" height="43.5"/>
+                                                    <rect key="frame" x="58" y="0.0" width="507" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Image_Folder" id="lrZ-Vf-a1E">
-                                                    <rect key="frame" x="15" y="7" width="28" height="28"/>
+                                                    <rect key="frame" x="15" y="10" width="28" height="28"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -384,18 +385,36 @@
                                     <segue destination="DdQ-Pq-AsV" kind="presentation" identifier="showAccSettingsDetails" id="NYG-V6-5O3"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="ToolIcon_Upload" id="IJT-5b-45m"/>
+                            <barButtonItem title="Select" id="hve-bk-ffd"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="barButton_select" destination="hve-bk-ffd" id="iVJ-qM-8Ra"/>
                         <outlet property="barButton_settings" destination="7zd-Cl-QmM" id="L00-sh-ARm"/>
-                        <outlet property="barButton_upload" destination="IJT-5b-45m" id="9gs-C3-cXB"/>
                         <outlet property="table_master" destination="Xck-Id-j1m" id="P3e-EC-9zQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGr-MJ-W6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2156" y="812"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="k5z-PM-WkW">
+            <objects>
+                <viewController id="met-le-JSM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qlx-MQ-Ba5"/>
+                        <viewControllerLayoutGuide type="bottom" id="09H-Lc-Vle"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hw7-Z7-ztR">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bK8-gG-5l2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2920" y="812"/>
         </scene>
         <!--Add Account-->
         <scene sceneID="pWx-EE-sWc">
