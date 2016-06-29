@@ -28,35 +28,20 @@ class LivePhotoListCell: UITableViewCell {
     @IBOutlet weak var collection_master: CloudLivePhotoCollection!
 }
 
-class CloudLivePhotoCollection: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
-    private let CELL_REUSE_ID_CLOUD_LIVE_PHOTO_THUMB_CELL = "cloudLivePhotoThumbCell"
-    
-    var cloudLivePhotos: [CloudLivePhoto]?
-    
-    // MARK: UICollectionViewDataSource
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let livePhotoCount = cloudLivePhotos!.count
-        return livePhotoCount
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let photoThumbnailCell = self.dequeueReusableCellWithReuseIdentifier(CELL_REUSE_ID_CLOUD_LIVE_PHOTO_THUMB_CELL, forIndexPath: indexPath) as! CloudLivePhotoCollectionCell
-        photoThumbnailCell.loadImageView(cloudLivePhotos![indexPath.item])
-        return photoThumbnailCell
-    }
-    
-}
-
 class CloudLivePhotoCollectionCell: UICollectionViewCell {
     @IBOutlet weak var image_thumbnail: UIImageView!
     
+    var myCloudLivePhoto: CloudLivePhoto!
+    
     func loadImageView(myCloudLivePhoto: CloudLivePhoto) {
+        self.myCloudLivePhoto = myCloudLivePhoto
+        
         let thumbnailURL = myCloudLivePhoto.thumbnailURL
         if NSFileManager.defaultManager().fileExistsAtPath(thumbnailURL.path!) {
              image_thumbnail.image = UIImage(data: NSData(contentsOfURL: myCloudLivePhoto.thumbnailURL)!)
         } else {
-            CloudDataManager.getCloudLivePhotoThumbnail(myCloudLivePhoto.photoFileMetaData, thumbnailURL: thumbnailURL, completion: {() in
-                self.image_thumbnail.image = UIImage(data: NSData(contentsOfURL: myCloudLivePhoto.thumbnailURL)!)
+            CloudDataManager.downloadCloudLivePhotoThumbnail(myCloudLivePhoto.photoFileMetaData, thumbnailURL: thumbnailURL, completion: {() in
+                self.image_thumbnail.image = UIImage(data: NSData(contentsOfURL: thumbnailURL)!)
                 }
             )
         }

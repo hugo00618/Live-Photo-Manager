@@ -34,6 +34,8 @@
 		9A4AE0541D17972B00181656 /* CloudLivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4AE0531D17972B00181656 /* CloudLivePhoto.swift */; };
 		9A5055711CBFE24D001054F5 /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4A84D41CBF2DAC00497539 /* ZipZap.framework */; };
 		9A5055721CBFE24D001054F5 /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4A84D41CBF2DAC00497539 /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A5827A01D23610D000FB807 /* CloudLivePhotoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58279F1D23610D000FB807 /* CloudLivePhotoDetailVC.swift */; };
+		9A5827AB1D2370BA000FB807 /* CloudLivePhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5827AA1D2370BA000FB807 /* CloudLivePhotoCollection.swift */; };
 		9A5C0D6D1D10CE0B00FC3FB9 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5C0D5A1D10CDEB00FC3FB9 /* MBProgressHUD.framework */; };
 		9A6594221D090B4900A0D54B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6594151D090B1B00A0D54B /* Alamofire.framework */; };
 		9A6594231D090B4900A0D54B /* SwiftyDropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6594191D090B1B00A0D54B /* SwiftyDropbox.framework */; };
@@ -245,6 +247,8 @@
 		9A4A84C91CBF2DAC00497539 /* ZipZap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipZap.xcodeproj; path = "ZipZap-master/ZipZap.xcodeproj"; sourceTree = "<group>"; };
 		9A4AE0511D178E4C00181656 /* CloudLivePhotoViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLivePhotoViews.swift; sourceTree = "<group>"; };
 		9A4AE0531D17972B00181656 /* CloudLivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLivePhoto.swift; sourceTree = "<group>"; };
+		9A58279F1D23610D000FB807 /* CloudLivePhotoDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLivePhotoDetailVC.swift; sourceTree = "<group>"; };
+		9A5827AA1D2370BA000FB807 /* CloudLivePhotoCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLivePhotoCollection.swift; sourceTree = "<group>"; };
 		9A65940D1D090B1A00A0D54B /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		9A6594261D092EFA00A0D54B /* CloudAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudAccountVC.swift; sourceTree = "<group>"; };
 		9A9B3A531D010EFE0090D33B /* live-manager-action-extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "live-manager-action-extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,6 +349,8 @@
 				9A6594261D092EFA00A0D54B /* CloudAccountVC.swift */,
 				9AED513E1D129CA6003A49AD /* CloudFileListVC.swift */,
 				9A4AE0511D178E4C00181656 /* CloudLivePhotoViews.swift */,
+				9A5827AA1D2370BA000FB807 /* CloudLivePhotoCollection.swift */,
+				9A58279F1D23610D000FB807 /* CloudLivePhotoDetailVC.swift */,
 				9A2E41CB1D0BDA3900AAF820 /* SettingsVC.swift */,
 				9A2E41CD1D0C310F00AAF820 /* AccountSettingsDetailsVC.swift */,
 				9A2E41C91D0BD3FC00AAF820 /* CloudAccountConfig.swift */,
@@ -827,12 +833,14 @@
 				9A46C4E41D14B6C300E30908 /* LoadingPrompt.swift in Sources */,
 				9AA4ACD91D13F87300D18772 /* DateUtility.swift in Sources */,
 				9AA4ACD41D136F6D00D18772 /* LivePhotoFileUtility.swift in Sources */,
+				9A5827A01D23610D000FB807 /* CloudLivePhotoDetailVC.swift in Sources */,
 				9A2E41CA1D0BD3FC00AAF820 /* CloudAccountConfig.swift in Sources */,
 				9A4A847A1CBF284700497539 /* PhotoThumbnailVC.swift in Sources */,
 				9A4A84771CBF284700497539 /* live_manager.xcdatamodeld in Sources */,
 				9A4AE0541D17972B00181656 /* CloudLivePhoto.swift in Sources */,
 				9AA6111B1D1261160028B926 /* README.md in Sources */,
 				9A4A84721CBF284700497539 /* AppDelegate.swift in Sources */,
+				9A5827AB1D2370BA000FB807 /* CloudLivePhotoCollection.swift in Sources */,
 				9A4A84711CBF284700497539 /* AddAccountVC.swift in Sources */,
 				9A2E41CC1D0BDA3900AAF820 /* SettingsVC.swift in Sources */,
 				9ACC7B4A1D0CF99C004AD05C /* CloudAccountManager.swift in Sources */,

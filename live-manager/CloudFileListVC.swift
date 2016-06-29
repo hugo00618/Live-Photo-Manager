@@ -11,12 +11,13 @@ import SwiftyDropbox
 import Photos
 import PhotosUI
 
-class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, AccountSettingsDetailsProtocol {
+class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, AccountSettingsDetailsProtocol, CloudLivePhotoCollectionProtocol {
     let CELL_REUSE_ID_LIVE_PHOTO_COLLEC = "livePhotoCollection"
     let CELL_REUSE_ID_VIEW_ALL = "viewAll"
     let CELL_REUSE_ID_DIR = "directory"
     
-    let SEGUE_ID_SHOW_ACC_SET_DETAIL = "showAccSettingsDetails"
+    let SEGUE_ID_SHOW_ACC_SETTINGS_DETAIL = "showAccSettingsDetails"
+    let SEGUE_ID_SHOW_CLOUD_LIVE_PHOTO_DETAILS = "showCloudLivePhotoDetails"
     
     let STORYBOARD_ID_CLOUD_FILE_LIST = "CloudFileListVC"
     
@@ -28,9 +29,10 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var folderMetaData: Files.FolderMetadata?
     
     var data = [[AnyObject]]()
+    var selectedCloudLivePhoto: CloudLivePhoto?
     
     var initialized = false
-    var thumbnailViewCollapsed = true
+    var thumbnailViewCollapsed = false
     
     // MARK: UIViewController
     override func viewDidLoad() {
@@ -62,12 +64,18 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // fetch file list and reload table view
         let myPath = folderMetaData == nil ? "" : folderMetaData!.pathLower
         CloudDataManager.getFileList(CloudServiceProvider(rawValue: accConfig!.serviceProviderName)!, path: myPath) { (cloudLivePhotos, directories) in
-            if cloudLivePhotos.count != 0 {
+            if cloudLivePhotos.count != 0 { // live photos exist
                 self.data.append(cloudLivePhotos)
+                
+                //enable select button
+                if self.barButton_select != nil {
+                    self.barButton_select.enabled = true
+                }
             }
-            if directories.count != 0 {
-                self.data.append(directories
-                )
+            
+            if directories.count != 0 { // folders exist
+                self.data.append(directories)
+                self.thumbnailViewCollapsed = true
             }
             
             self.initialized = true
@@ -164,15 +172,17 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let myData = data[indexPath.section][indexPath.row]
         if myData as? CloudLivePhoto != nil {
             if indexPath.row == 0 { // photo thumbnails
-                let livePhotoListCell = self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LIVE_PHOTO_COLLEC) as! LivePhotoListCell
+                let myCell = self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_LIVE_PHOTO_COLLEC) as! LivePhotoListCell
                 
-                livePhotoListCell.collection_master.cloudLivePhotos = data[indexPath.section] as! [CloudLivePhoto]
+                myCell.collection_master.myProtocol = self
+                
+                myCell.collection_master.cloudLivePhotos = data[indexPath.section] as! [CloudLivePhoto]
                 
                 
-                livePhotoListCell.collection_master.delegate = livePhotoListCell.collection_master
-                livePhotoListCell.collection_master.dataSource = livePhotoListCell.collection_master
+                myCell.collection_master.delegate = myCell.collection_master
+                myCell.collection_master.dataSource = myCell.collection_master
                 
-                return livePhotoListCell
+                return myCell
             }
             // view all button
             return self.table_master!.dequeueReusableCellWithIdentifier(CELL_REUSE_ID_VIEW_ALL)!
@@ -221,16 +231,19 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
     }
     
-    
     // MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let segueId = segue.identifier {
             switch segueId {
-            case SEGUE_ID_SHOW_ACC_SET_DETAIL:
-                let accSetDetailVC = (segue.destinationViewController as! UINavigationController).topViewController as! AccountSettingsDetailsVC
+            case SEGUE_ID_SHOW_ACC_SETTINGS_DETAIL: // settings
+                let destinationVC = (segue.destinationViewController as! UINavigationController).topViewController as! AccountSettingsDetailsVC
                 
-                accSetDetailVC.accountConfig = accConfig
-                accSetDetailVC.myProtocol = self
+                destinationVC.accountConfig = accConfig
+                destinationVC.myProtocol = self
+            case SEGUE_ID_SHOW_CLOUD_LIVE_PHOTO_DETAILS: // live photo details
+                let destinationVC = segue.destinationViewController as! CloudLivePhotoDetailVC
+                destinationVC.myCloudLivePhoto = selectedCloudLivePhoto
+                break
             default:
                 break
             }
@@ -241,6 +254,12 @@ class CloudFileListVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     // MARK: AccountSettingsDetailsProtocol
     func unlinkAccount() {
         self.navigationController?.popViewControllerAnimated(false)
+    }
+    
+    // MARK: CloudLivePhotoCollectionProtocol
+    func didSelectItem(myCloudLivePhoto: CloudLivePhoto) {
+        selectedCloudLivePhoto = myCloudLivePhoto
+        performSegueWithIdentifier(SEGUE_ID_SHOW_CLOUD_LIVE_PHOTO_DETAILS, sender: nil)
     }
     
 }

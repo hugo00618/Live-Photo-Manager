@@ -42,7 +42,9 @@ class CloudDataManager {
                                 } else if (LivePhotoFileUtility.entryIsMOV(entryName) && livePhotoJpegEntry != nil) { // mov
                                     // check if mov matches jpeg name
                                     if (LivePhotoFileUtility.removeExtension(livePhotoJpegEntry!.name) == LivePhotoFileUtility.removeExtension(entryName)) { // names match
-                                        let thumbnailURL = NSURL(fileURLWithPath: (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent(livePhotoJpegEntry!.name))
+                                        let thumbnailURL = NSURL(fileURLWithPath: (NSTemporaryDirectory() as NSString).stringByAppendingPathComponent("/Dropbox/" + livePhotoJpegEntry!.pathLower + "thumb"))
+                                        
+                                        try! NSFileManager.defaultManager().createDirectoryAtURL(thumbnailURL.URLByDeletingLastPathComponent!, withIntermediateDirectories: true, attributes: nil)
                                         
                                         cloudLivePhotos.append(CloudLivePhoto(thumbnailURL: thumbnailURL, photoFileMetaData:
                                             livePhotoJpegEntry!, videoFileMetaData: entry))
@@ -75,7 +77,7 @@ class CloudDataManager {
         }
     }
     
-    static func getCloudLivePhotoThumbnail(metaData: Files.Metadata, thumbnailURL: NSURL, completion: () -> Void) {
+    static func downloadCloudLivePhotoThumbnail(metaData: Files.Metadata, thumbnailURL: NSURL, completion: () -> Void) {
         if let client = Dropbox.authorizedClient {
             let destination : (NSURL, NSHTTPURLResponse) -> NSURL = { temporaryURL, response in
                 return thumbnailURL
@@ -84,6 +86,27 @@ class CloudDataManager {
             client.files.getThumbnail(path: metaData.pathLower, format: Files.ThumbnailFormat.Jpeg, size: Files.ThumbnailSize.W640h480, destination: destination).response {
                 response, error in
                 completion()
+            }
+        }
+    }
+    
+    static func downloadFile() {
+        if let client = Dropbox.authorizedClient {
+            let destination : (NSURL, NSHTTPURLResponse) -> NSURL = { temporaryURL, response in
+                let fileManager = NSFileManager.defaultManager()
+                let directoryURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+                // generate a unique name for this file in case we've seen it before
+                let UUID = NSUUID().UUIDString
+                let pathComponent = "\(UUID)-\(response.suggestedFilename!)"
+                return directoryURL.URLByAppendingPathComponent(pathComponent)
+            }
+            
+            client.files.download(path: "/hello.txt", destination: destination).response { response, error in
+                if let (metadata, url) = response {
+                    let data = NSData(contentsOfURL: url)
+                } else {
+                    print(error!)
+                }
             }
         }
     }
